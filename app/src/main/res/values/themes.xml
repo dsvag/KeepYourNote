@@ -1,0 +1,53 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+
+    <style name="Theme.KeepYourNote" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="colorPrimary">@color/purple_500</item>
+        <item name="colorPrimaryVariant">@color/purple_300</item>
+        <item name="colorOnPrimary">@color/white</item>
+
+        <item name="colorSecondary">@color/teal_500</item>
+        <item name="colorSecondaryVariant">@color/teal_300</item>
+        <item name="colorOnSecondary">@color/white</item>
+
+        <item name="colorSurface">@color/not_white</item>
+        <item name="colorOnSurface">@color/not_black</item>
+
+        <item name="background">@color/white</item>
+        <item name="colorOnBackground">@color/black</item>
+
+        <item name="colorError">@color/error_red</item>
+        <item name="colorOnError">@color/white</item>
+
+        <item name="selectableItemBackground">@color/not_white</item>
+
+        <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimary</item>
+        <item name="android:navigationBarColor">?attr/colorPrimary</item>
+        <item name="android:windowAnimationStyle">@style/WindowAnimationTransition</item>
+
+        <item name="changeThemeIcon">@drawable/ic_baseline_moon</item>
+
+    </style>
+
+    <style name="WindowAnimationTransition">
+        <item name="android:windowEnterAnimation">@android:anim/fade_in</item>
+        <item name="android:windowExitAnimation">@android:anim/fade_out</item>
+    </style>
+
+    <style name="Theme.Toolbar" parent="Widget.MaterialComponents.Toolbar">
+        <item name="android:textColorSecondary">@color/white</item>
+        <item name="android:gravity">center</item>
+    </style>
+
+    <style name="Theme.Toolbar.Text" parent="Theme.MaterialComponents">
+        <item name="android:textSize">24sp</item>
+    </style>
+
+    <style name="Theme.FloatingActionButton" parent="Widget.MaterialComponents.FloatingActionButton">
+        <item name="android:background">@null</item>
+        <item name="enforceMaterialTheme">true</item>
+        <item name="ensureMinTouchTargetSize">true</item>
+        <item name="backgroundTint">?attr/colorSecondary</item>
+        <item name="tint">@color/white</item>
+    </style>
+
+</resources>
