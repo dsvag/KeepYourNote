@@ -2,8 +2,10 @@ package com.dsvag.keepyournote.data.adapters.note
 
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.findNavController
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.dsvag.keepyournote.R
 import com.dsvag.keepyournote.data.models.Note
@@ -30,23 +32,22 @@ class NoteAdapter : RecyclerView.Adapter<NoteAdapter.NoteViewHolder>() {
 
     override fun getItemCount() = noteList.size
 
-    fun setData(noteList: List<Note>) {
+    fun setData(noteList: List<Note>, diffResult: DiffUtil.DiffResult) {
         this.noteList.clear()
         this.noteList.addAll(noteList)
-        notifyDataSetChanged()
+        diffResult.dispatchUpdatesTo(this)
     }
 
-    fun removeItem(position: Int) {
-        noteList.removeAt(position)
-        notifyItemRemoved(position)
-    }
+    fun getItem(position: Int) = noteList[position]
+
+    fun getData(): List<Note> = noteList
 
     class NoteViewHolder(private val itemBinding: RowNoteBinding) :
         RecyclerView.ViewHolder(itemBinding.root) {
 
         fun bind(note: Note) {
-//            if (note.title.isEmpty()) itemBinding.title.visibility = View.GONE
-//            if (note.description.isEmpty()) itemBinding.description.visibility = View.GONE
+            if (note.title.isEmpty()) itemBinding.title.visibility = View.GONE
+            if (note.description.isEmpty()) itemBinding.description.visibility = View.GONE
 
             itemBinding.title.text = note.title
             itemBinding.description.text = note.description

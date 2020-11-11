@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@drawable/bg_row_note"
+    android:background="?attr/colorSurface"
     app:cardElevation="8dp"
     app:shapeAppearance="@style/ShapeAppearance.App.MediumComponent">
 
@@ -28,12 +28,10 @@
             android:id="@+id/description"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:autoSizeMaxTextSize="20sp"
-            android:autoSizeMinTextSize="10sp"
-            android:autoSizeStepGranularity="1sp"
-            android:autoSizeTextType="uniform"
+            android:ellipsize="end"
             android:maxHeight="400dp"
             android:textColor="?attr/colorOnSurface"
+            android:textSize="18sp"
             tools:text="Description" />
 
     </LinearLayout>

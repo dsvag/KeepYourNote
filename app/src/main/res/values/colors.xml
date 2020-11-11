@@ -11,8 +11,8 @@
     <color name="white">#FFFFFF</color>
     <color name="black">#FF000000</color>
 
-    <color name="not_white">#EEEEEE</color>
-    <color name="not_black">#080808</color>
+    <color name="not_white">#F0F0F0</color>
+    <color name="not_black">#020202</color>
 
     <color name="not_white_dark">#B5B5B5</color>
     <color name="not_black_light">#252525</color>

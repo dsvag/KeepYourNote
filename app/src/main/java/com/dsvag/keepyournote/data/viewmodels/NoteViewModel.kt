@@ -29,12 +29,6 @@ class NoteViewModel(application: Application) : AndroidViewModel(application) {
         }
     }
 
-    fun getTheme(): Theme = repository.getTheme()
-
-    fun setTheme(theme: Theme) {
-        repository.setTheme(theme)
-    }
-
     class Factory(val app: Application) : ViewModelProvider.Factory {
         override fun <T : ViewModel?> create(modelClass: Class<T>): T {
             if (modelClass.isAssignableFrom(NoteViewModel::class.java)) {
