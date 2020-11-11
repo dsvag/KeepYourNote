@@ -3,6 +3,7 @@ package com.dsvag.keepyournote.ui.fragments
 import android.content.Intent
 import android.os.Bundle
 import android.view.*
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.dsvag.keepyournote.R
@@ -62,19 +63,30 @@ class NoteFragment : Fragment() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.share -> {
-                val sendIntent = Intent()
-                sendIntent.action = Intent.ACTION_SEND
-                sendIntent.putExtra(Intent.EXTRA_SUBJECT, binding.title.text.toString().trim())
-                sendIntent.putExtra(Intent.EXTRA_TEXT, binding.description.text.toString().trim())
-                sendIntent.type = "text/plain"
-                Intent.createChooser(sendIntent, "Send via")
-                startActivity(sendIntent)
+                if (checkNote()) {
+                    val text = StringBuilder().apply {
+                        append(binding.title.text.toString().trim())
+                        append("\n")
+                        append(binding.description.text.toString().trim())
+                    }
+
+                    val sendIntent = Intent().apply {
+                        action = Intent.ACTION_SEND
+                        putExtra(Intent.EXTRA_TEXT, text.toString())
+                        type = "text/plain"
+                        flags = Intent.FLAG_GRANT_READ_URI_PERMISSION
+
+                    }
+
+                    startActivity(Intent.createChooser(sendIntent, "Send via"))
+                } else {
+                    Toast.makeText(requireContext(), "Note empty", Toast.LENGTH_SHORT).show()
+                }
                 true
             }
             else -> super.onOptionsItemSelected(item)
         }
     }
-
 
     private fun saveNote() {
         val titleText = binding.title.text.toString().trim()
@@ -82,8 +94,10 @@ class NoteFragment : Fragment() {
 
         note = note.copy(title = titleText, description = descriptionText)
 
-        if (note.description.isNotEmpty() || note.title.isNotEmpty()) {
+        if (checkNote()) {
             viewModel.insert(note)
         }
     }
+
+    private fun checkNote() = note.description.isNotEmpty() || note.title.isNotEmpty()
 }

@@ -7,13 +7,13 @@ import java.io.Serializable
 
 @Entity(tableName = "note")
 data class Note(
-    @SerializedName("id")
-    @PrimaryKey(autoGenerate = true)
-    val id: Long = 0,
+   @SerializedName("id")
+   @PrimaryKey(autoGenerate = true)
+   val id: Long = 0,
 
-    @SerializedName("title")
-    val title: String = "",
+   @SerializedName("title")
+   val title: String = "",
 
-    @SerializedName("description")
-    val description: String
+   @SerializedName("description")
+   val description: String,
 ) : Serializable

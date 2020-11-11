@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-        android:id="@+id/choseThem"
+        android:id="@+id/choseTheme"
         android:icon="?attr/changeThemeIcon"
         android:title="Theme"
         app:showAsAction="always" />
