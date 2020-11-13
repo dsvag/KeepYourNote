@@ -1,7 +1,6 @@
 package com.dsvag.keepyournote.data.adapters.note
 
 import android.os.Bundle
-import android.util.SparseBooleanArray
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,7 +14,6 @@ import com.dsvag.keepyournote.databinding.RowNoteBinding
 class NoteAdapter : RecyclerView.Adapter<NoteAdapter.NoteViewHolder>() {
 
     private val noteList: MutableList<Note> = ArrayList()
-    private val selectedItems = SparseBooleanArray()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NoteViewHolder {
         val inflater = LayoutInflater.from(parent.context)
@@ -53,6 +51,7 @@ class NoteAdapter : RecyclerView.Adapter<NoteAdapter.NoteViewHolder>() {
 
             itemBinding.title.text = note.title
             itemBinding.description.text = note.description
+            //itemBinding.root.setBackgroundColor(note.color)
         }
     }
 }

@@ -9,8 +9,8 @@
         app:showAsAction="always" />
 
     <item
-        android:id="@+id/settings"
-        android:icon="@drawable/ic_baseline_settings"
-        android:title="Settings"
+        android:id="@+id/choseLayout"
+        android:icon="@drawable/ic_baseline_grid"
+        android:title="Layout"
         app:showAsAction="always" />
 </menu>

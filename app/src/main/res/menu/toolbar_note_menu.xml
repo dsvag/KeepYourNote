@@ -3,9 +3,28 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
+        android:id="@+id/label"
+        android:icon="@drawable/ic_outline_label"
+        android:title="Label"
+        app:showAsAction="always" />
+    
+    <item
+        android:id="@+id/color"
+        android:icon="@drawable/ic_baseline_color_lens"
+        android:title="Color"
+        app:showAsAction="always" />
+
+    <item
+        android:id="@+id/delete"
+        android:icon="@drawable/ic_baseline_delete"
+        android:title="Delete"
+        app:showAsAction="never" />
+
+    <item
         android:id="@+id/share"
         android:icon="@drawable/ic_baseline_share"
         android:title="Share"
-        app:showAsAction="always" />
+        app:showAsAction="never" />
+
 
 </menu>

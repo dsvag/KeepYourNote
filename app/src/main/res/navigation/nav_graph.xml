@@ -13,6 +13,9 @@
         <action
             android:id="@+id/action_noteListFragment_to_noteFragment"
             app:destination="@id/noteFragment" />
+        <action
+            android:id="@+id/action_noteListFragment_to_labelsFragment"
+            app:destination="@id/labelsFragment" />
     </fragment>
 
     <fragment
@@ -23,7 +26,24 @@
         <action
             android:id="@+id/action_noteFragment_to_noteListFragment"
             app:destination="@id/noteListFragment" />
+        <action
+            android:id="@+id/action_noteFragment_to_labelsFragment"
+            app:destination="@id/labelsFragment" />
 
+    </fragment>
+
+    <fragment
+        android:id="@+id/labelsFragment"
+        android:name="com.dsvag.keepyournote.ui.fragments.LabelsFragment"
+        android:label="Edit labels"
+        app:startDestination="@id/action_labelsFragment_to_noteListFragment"
+        tools:layout="@layout/fragment_labels">
+        <action
+            android:id="@+id/action_labelsFragment_to_noteFragment"
+            app:destination="@id/noteFragment" />
+        <action
+            android:id="@+id/action_labelsFragment_to_noteListFragment"
+            app:destination="@id/noteListFragment" />
     </fragment>
 
 </navigation>

@@ -2,8 +2,11 @@ package com.dsvag.keepyournote.ui.fragments
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.*
 import android.widget.Toast
+import androidx.core.content.ContextCompat
+import androidx.core.view.get
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.dsvag.keepyournote.R
@@ -22,6 +25,8 @@ class NoteFragment : Fragment() {
     }
 
     private lateinit var note: Note
+
+    private var isDelete: Boolean = false
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
@@ -46,7 +51,9 @@ class NoteFragment : Fragment() {
 
     override fun onPause() {
         super.onPause()
-        saveNote()
+        if (!isDelete) {
+            saveNote()
+        }
     }
 
     override fun onDestroyView() {
@@ -57,6 +64,7 @@ class NoteFragment : Fragment() {
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         menu.clear()
         inflater.inflate(R.menu.toolbar_note_menu, menu)
+        Log.d("Drawable menu", menu[2].icon.toString())
         super.onCreateOptionsMenu(menu, inflater)
     }
 
@@ -64,24 +72,20 @@ class NoteFragment : Fragment() {
         return when (item.itemId) {
             R.id.share -> {
                 if (checkNote()) {
-                    val text = StringBuilder().apply {
-                        append(binding.title.text.toString().trim())
-                        append("\n")
-                        append(binding.description.text.toString().trim())
-                    }
-
-                    val sendIntent = Intent().apply {
-                        action = Intent.ACTION_SEND
-                        putExtra(Intent.EXTRA_TEXT, text.toString())
-                        type = "text/plain"
-                        flags = Intent.FLAG_GRANT_READ_URI_PERMISSION
-
-                    }
-
-                    startActivity(Intent.createChooser(sendIntent, "Send via"))
+                    shareNote()
                 } else {
                     Toast.makeText(requireContext(), "Note empty", Toast.LENGTH_SHORT).show()
                 }
+                true
+            }
+            R.id.label -> {
+                true
+            }
+            R.id.color -> {
+                true
+            }
+            R.id.delete -> {
+                isDelete = true
                 true
             }
             else -> super.onOptionsItemSelected(item)
@@ -91,8 +95,15 @@ class NoteFragment : Fragment() {
     private fun saveNote() {
         val titleText = binding.title.text.toString().trim()
         val descriptionText = binding.description.text.toString().trim()
+        val color = ContextCompat.getColor(requireContext(), R.color.transparent)
 
-        note = note.copy(title = titleText, description = descriptionText)
+        Log.d("Color", color.toString())
+
+        note = note.copy(
+            title = titleText,
+            description = descriptionText,
+            labels = listOf("New")
+        )
 
         if (checkNote()) {
             viewModel.insert(note)
@@ -100,4 +111,21 @@ class NoteFragment : Fragment() {
     }
 
     private fun checkNote() = note.description.isNotEmpty() || note.title.isNotEmpty()
+
+    private fun shareNote() {
+        val text = StringBuilder().apply {
+            append(binding.title.text.toString().trim())
+            append("\n")
+            append(binding.description.text.toString().trim())
+        }
+
+        val sendIntent = Intent().apply {
+            action = Intent.ACTION_SEND
+            putExtra(Intent.EXTRA_TEXT, text.toString())
+            type = "text/plain"
+            flags = Intent.FLAG_GRANT_READ_URI_PERMISSION
+        }
+
+        startActivity(Intent.createChooser(sendIntent, "Send via"))
+    }
 }

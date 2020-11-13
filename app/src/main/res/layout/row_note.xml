@@ -34,6 +34,12 @@
             android:textSize="18sp"
             tools:text="Description" />
 
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/labels"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layoutManager="androidx.recyclerview.widget.GridLayoutManager" />
+
     </LinearLayout>
 
 </com.google.android.material.card.MaterialCardView>
