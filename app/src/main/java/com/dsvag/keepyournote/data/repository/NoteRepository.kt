@@ -1,7 +1,7 @@
 package com.dsvag.keepyournote.data.repository
 
 import androidx.lifecycle.asLiveData
-import com.dsvag.keepyournote.data.database.NoteDao
+import com.dsvag.keepyournote.data.database.note.NoteDao
 import com.dsvag.keepyournote.data.models.Note
 
 class NoteRepository(

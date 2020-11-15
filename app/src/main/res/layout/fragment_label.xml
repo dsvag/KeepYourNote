@@ -6,33 +6,40 @@
     android:layout_height="match_parent"
     android:background="?attr/background"
     android:orientation="vertical"
-    android:padding="16dp"
-    tools:context=".ui.fragments.LabelsFragment">
+    tools:context=".ui.fragments.LabelFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/linearLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:padding="8dp">
+        android:background="?attr/colorSurface"
+        android:padding="16dp">
 
         <androidx.appcompat.widget.AppCompatImageButton
             android:id="@+id/clear"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:background="@color/transparent"
+            android:scaleType="centerCrop"
             android:src="@drawable/ic_baseline_close"
-            android:tint="?attr/colorOnBackground"
+            android:tint="?attr/colorOnSurface"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/newLabel"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="8dp"
             android:background="@color/transparent"
-            android:textColor="?attr/colorOnBackground"
+            android:hint="New label"
+            android:inputType="textShortMessage|textCapSentences"
+            android:maxLines="1"
+            android:paddingHorizontal="16dp"
+            android:paddingVertical="8dp"
+            android:scrollHorizontally="true"
+            android:textColor="?attr/colorOnSurface"
+            android:textColorHint="?attr/hintTextColor"
             android:textSize="18sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/add"
@@ -42,10 +49,11 @@
         <androidx.appcompat.widget.AppCompatImageButton
             android:id="@+id/add"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:background="@color/transparent"
+            android:scaleType="centerCrop"
             android:src="@drawable/ic_baseline_check"
-            android:tint="?attr/colorOnBackground"
+            android:tint="?attr/colorOnSurface"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -53,6 +61,8 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/labels"
+        android:layout_marginTop="8dp"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 

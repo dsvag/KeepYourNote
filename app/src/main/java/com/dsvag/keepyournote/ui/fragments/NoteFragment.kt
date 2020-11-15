@@ -2,17 +2,16 @@ package com.dsvag.keepyournote.ui.fragments
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.*
 import android.widget.Toast
-import androidx.core.content.ContextCompat
-import androidx.core.view.get
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import com.dsvag.keepyournote.R
 import com.dsvag.keepyournote.data.models.Note
 import com.dsvag.keepyournote.data.viewmodels.NoteViewModel
 import com.dsvag.keepyournote.databinding.FragmentNoteBinding
+import dev.sasikanth.colorsheet.ColorSheet
 
 class NoteFragment : Fragment() {
 
@@ -40,6 +39,7 @@ class NoteFragment : Fragment() {
             note = maybeNote as Note
             binding.title.setText(note.title)
             binding.description.setText(note.description)
+            painColorIcon(note.color)
         } else {
             note = Note(title = "", description = "")
         }
@@ -64,12 +64,19 @@ class NoteFragment : Fragment() {
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         menu.clear()
         inflater.inflate(R.menu.toolbar_note_menu, menu)
-        Log.d("Drawable menu", menu[2].icon.toString())
         super.onCreateOptionsMenu(menu, inflater)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
+            R.id.label -> {
+                findNavController().navigate(R.id.action_noteFragment_to_labelFragment)
+                true
+            }
+            R.id.color -> {
+                openColorPicker()
+                true
+            }
             R.id.share -> {
                 if (checkNote()) {
                     shareNote()
@@ -78,14 +85,10 @@ class NoteFragment : Fragment() {
                 }
                 true
             }
-            R.id.label -> {
-                true
-            }
-            R.id.color -> {
-                true
-            }
             R.id.delete -> {
                 isDelete = true
+                viewModel.deleteNote(note)
+                findNavController().popBackStack()
                 true
             }
             else -> super.onOptionsItemSelected(item)
@@ -95,14 +98,10 @@ class NoteFragment : Fragment() {
     private fun saveNote() {
         val titleText = binding.title.text.toString().trim()
         val descriptionText = binding.description.text.toString().trim()
-        val color = ContextCompat.getColor(requireContext(), R.color.transparent)
-
-        Log.d("Color", color.toString())
 
         note = note.copy(
             title = titleText,
             description = descriptionText,
-            labels = listOf("New")
         )
 
         if (checkNote()) {
@@ -128,4 +127,39 @@ class NoteFragment : Fragment() {
 
         startActivity(Intent.createChooser(sendIntent, "Send via"))
     }
+
+    private fun openColorPicker() {
+        ColorSheet()
+            .colorPicker(
+                colors = colors(),
+                noColorOption = true,
+                listener = { color ->
+                    note = note.copy(color = color)
+                    painColorIcon(color)
+                }
+            ).show(requireActivity().supportFragmentManager)
+    }
+
+    private fun painColorIcon(color: Int) {
+        val drawable = requireContext().getDrawable(R.drawable.ic_baseline_color_lens)!!
+        if (color == -1) {
+            drawable.setTint(requireContext().getColor(R.color.white))
+        } else {
+            drawable.setTint(color)
+        }
+    }
+
+    private fun colors() = intArrayOf(
+        requireContext().getColor(R.color.coral_a200),
+        requireContext().getColor(R.color.pink_a200),
+        requireContext().getColor(R.color.fuchsia_a200),
+        requireContext().getColor(R.color.purple_a200),
+        requireContext().getColor(R.color.blue_a200),
+        requireContext().getColor(R.color.aqua_a200),
+        requireContext().getColor(R.color.mint_a200),
+        requireContext().getColor(R.color.yellow_a200),
+        requireContext().getColor(R.color.orange_a200),
+        requireContext().getColor(R.color.brown_a200),
+        requireContext().getColor(R.color.grey_a200),
+    )
 }

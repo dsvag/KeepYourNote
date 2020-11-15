@@ -7,13 +7,12 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.dsvag.keepyournote.data.di.getAppComponent
 import com.dsvag.keepyournote.data.models.Note
-import com.dsvag.keepyournote.data.utils.Theme
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class NoteViewModel(application: Application) : AndroidViewModel(application) {
 
-    private val repository by lazy { application.getAppComponent().repository }
+    private val repository = application.getAppComponent().noteRepository
 
     val getNotes = repository.getNoteFromDb()
 

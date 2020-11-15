@@ -6,20 +6,11 @@ import com.google.gson.annotations.SerializedName
 import java.io.Serializable
 
 @Entity
-data class Note(
+data class Label(
     @SerializedName("id")
     @PrimaryKey(autoGenerate = true)
     val id: Long = 0,
 
     @SerializedName("title")
-    var title: String = "",
-
-    @SerializedName("description")
-    var description: String,
-
-    @SerializedName("color")
-    var color: Int = 0,
-
-    @SerializedName("labels")
-    var labels: List<Label> = emptyList(),
+    val title: String,
 ) : Serializable

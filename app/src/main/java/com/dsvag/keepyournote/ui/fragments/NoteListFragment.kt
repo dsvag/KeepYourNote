@@ -1,20 +1,20 @@
 package com.dsvag.keepyournote.ui.fragments
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
-import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.*
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ItemTouchHelper
+import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.dsvag.keepyournote.R
 import com.dsvag.keepyournote.data.adapters.SwipeCallback
 import com.dsvag.keepyournote.data.adapters.note.NoteAdapter
-import com.dsvag.keepyournote.data.adapters.note.NoteDecoration
+import com.dsvag.keepyournote.data.adapters.ItemDecoration
 import com.dsvag.keepyournote.data.adapters.note.NoteDiffUtilCallback
 import com.dsvag.keepyournote.data.models.Note
 import com.dsvag.keepyournote.data.viewmodels.NoteViewModel
@@ -59,33 +59,19 @@ class NoteListFragment : Fragment() {
         }
     }
 
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        return when (item.itemId) {
-            R.id.choseLayout -> {
-                changeLayout(item)
-                true
-            }
-
-            else -> super.onOptionsItemSelected(item)
-        }
-    }
-
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
     }
 
     private fun initRecyclerview() {
-        val noteDecoration = NoteDecoration(10)
-
-        val drawable = ContextCompat.getDrawable(requireContext(), R.drawable.ic_baseline_delete)!!
-        Log.d("Drawable", drawable.toString())
+        val noteDecoration = ItemDecoration(10)
 
         val itemTouchHelper = ItemTouchHelper(
             SwipeCallback(
                 ::deleteNote,
-                drawable,
-                ContextCompat.getColor(requireContext(), R.color.error_red),
+                requireContext().getDrawable( R.drawable.ic_baseline_delete)!!,
+                requireContext().getColor( R.color.error_red),
             )
         )
 
@@ -111,16 +97,5 @@ class NoteListFragment : Fragment() {
     private fun deleteNote(position: Int) {
         val note = noteAdapter.getItem(position)
         viewModel.deleteNote(note)
-    }
-
-    private fun changeLayout(item: MenuItem) {
-        if (binding.recyclerview.layoutManager == StaggeredGridLayoutManager(2, 1)) {
-            binding.recyclerview.layoutManager =
-                LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
-            item.icon = ContextCompat.getDrawable(requireContext(), R.drawable.ic_baseline_menu)
-        } else {
-            binding.recyclerview.layoutManager = LinearLayoutManager(requireContext())
-            item.icon = ContextCompat.getDrawable(requireContext(), R.drawable.ic_baseline_grid)
-        }
     }
 }

@@ -7,7 +7,7 @@
         android:icon="@drawable/ic_outline_label"
         android:title="Label"
         app:showAsAction="always" />
-    
+
     <item
         android:id="@+id/color"
         android:icon="@drawable/ic_baseline_color_lens"
@@ -15,16 +15,15 @@
         app:showAsAction="always" />
 
     <item
-        android:id="@+id/delete"
-        android:icon="@drawable/ic_baseline_delete"
-        android:title="Delete"
-        app:showAsAction="never" />
-
-    <item
         android:id="@+id/share"
         android:icon="@drawable/ic_baseline_share"
         android:title="Share"
         app:showAsAction="never" />
 
+    <item
+        android:id="@+id/delete"
+        android:icon="@drawable/ic_baseline_delete"
+        android:title="Delete"
+        app:showAsAction="never" />
 
 </menu>

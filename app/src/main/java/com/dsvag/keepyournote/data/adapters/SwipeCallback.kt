@@ -2,8 +2,10 @@ package com.dsvag.keepyournote.data.adapters
 
 import android.graphics.Canvas
 import android.graphics.drawable.Drawable
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
+import com.dsvag.keepyournote.R
 
 class SwipeCallback(
     private val leftSwipeAction: (Int) -> Unit,
@@ -55,7 +57,6 @@ class SwipeCallback(
                 rightSwipeIcon.setTint(rightSwipeIconColor)
                 rightSwipeIcon.setBounds(iconLeft, iconTop, iconRight, iconBottom)
             }
-
             dX < 0 -> { // to left
                 val iconTop = itemView.top + (itemView.height - leftSwipeIcon.intrinsicHeight) / 2
                 val iconBottom = iconTop + leftSwipeIcon.intrinsicHeight
@@ -64,6 +65,11 @@ class SwipeCallback(
 
                 leftSwipeIcon.setTint(leftSwipeIconColor)
                 leftSwipeIcon.setBounds(iconLeft, iconTop, iconRight, iconBottom)
+            }
+            else -> {
+                val color = ContextCompat.getColor(viewHolder.itemView.context, R.color.white)
+                leftSwipeIcon.setTint(color)
+                rightSwipeIcon.setTint(color)
             }
         }
 

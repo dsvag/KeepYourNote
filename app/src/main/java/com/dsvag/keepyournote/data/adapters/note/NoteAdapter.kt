@@ -1,5 +1,6 @@
 package com.dsvag.keepyournote.data.adapters.note
 
+import android.graphics.drawable.GradientDrawable
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -26,7 +27,8 @@ class NoteAdapter : RecyclerView.Adapter<NoteAdapter.NoteViewHolder>() {
         holder.itemView.setOnClickListener {
             val bundle = Bundle()
             bundle.putSerializable("note", noteList[position])
-            holder.itemView.findNavController().navigate(R.id.noteFragment, bundle)
+            holder.itemView.findNavController()
+                .navigate(R.id.action_noteListFragment_to_noteFragment, bundle)
         }
     }
 
@@ -51,7 +53,14 @@ class NoteAdapter : RecyclerView.Adapter<NoteAdapter.NoteViewHolder>() {
 
             itemBinding.title.text = note.title
             itemBinding.description.text = note.description
-            //itemBinding.root.setBackgroundColor(note.color)
+
+            val background = itemBinding.root.background!! as GradientDrawable
+
+            if (note.color != -1) {
+                background.setStroke(4, note.color)
+            } else {
+                background.setStroke(0, note.color)
+            }
         }
     }
 }
