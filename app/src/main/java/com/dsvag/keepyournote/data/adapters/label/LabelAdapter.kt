@@ -2,74 +2,53 @@ package com.dsvag.keepyournote.data.adapters.label
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.dsvag.keepyournote.data.models.Label
-import com.dsvag.keepyournote.databinding.RowLabelPickerBinding
+import com.dsvag.keepyournote.databinding.RowLabelBinding
+import kotlin.math.min
 
-class LabelAdapter(
-    private val onClickCallback: (label: Label) -> Unit,
-) : RecyclerView.Adapter<LabelAdapter.LabelViewHolder>() {
+class LabelAdapter : RecyclerView.Adapter<LabelAdapter.LabelViewHolder>() {
 
     private val labels: MutableList<Label> = mutableListOf()
-    private val checkedLabels: MutableList<Label> = mutableListOf()
+
+    private var isInNote = false
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): LabelViewHolder {
         val inflater = LayoutInflater.from(parent.context)
-        return LabelViewHolder(
-            RowLabelPickerBinding.inflate(inflater, parent, false),
-            ::addToChecked,
-            ::removeFromChecked,
-            ::onClick,
-        )
+        return LabelViewHolder(RowLabelBinding.inflate(inflater, parent, false))
     }
 
     override fun onBindViewHolder(holder: LabelViewHolder, position: Int) {
-        holder.bind(labels[position])
+        if (isInNote && position == 2 && labels.size > 3) {
+            holder.bind(Label(title = "+${labels.size - 2}"))
+        } else {
+            holder.bind(labels[position])
+        }
     }
 
-    override fun getItemCount(): Int = labels.size
+    override fun getItemCount(): Int {
+        return if (isInNote) {
+            min(labels.size, 3)
+        } else {
+            labels.size
+        }
+    }
 
-    fun setData(newLabels: List<Label>, diffResult: DiffUtil.DiffResult) {
+    fun setData(list: List<Label>) {
         labels.clear()
-        labels.addAll(newLabels)
-        diffResult.dispatchUpdatesTo(this)
+        labels.addAll(list)
+        notifyDataSetChanged()
     }
 
-    fun getData() = labels
-
-    private fun onClick(label: Label) {
-        onClickCallback(label)
+    fun setIsInNote(boolean: Boolean) {
+        isInNote = boolean
     }
 
-    private fun addToChecked(position: Int) {
-        checkedLabels.add(labels[position])
-    }
-
-    private fun removeFromChecked(label: Label) {
-        checkedLabels.remove(label)
-    }
-
-    class LabelViewHolder(
-        private val itemBinding: RowLabelPickerBinding,
-        private val add: (position: Int) -> Unit,
-        private val remove: (label: Label) -> Unit,
-        private val onClick: (label: Label) -> Unit,
-    ) : RecyclerView.ViewHolder(itemBinding.root) {
+    class LabelViewHolder(private val itemBinding: RowLabelBinding) :
+        RecyclerView.ViewHolder(itemBinding.root) {
 
         fun bind(label: Label) {
-            itemBinding.text.text = label.title
-            itemBinding.checkBox.setOnCheckedChangeListener { _, isChecked ->
-                if (isChecked) {
-                    add(adapterPosition)
-                } else {
-                    remove(label)
-                }
-            }
-
-            itemBinding.root.setOnClickListener {
-                onClick(label)
-            }
+            itemBinding.label.text = label.title
         }
     }
 }

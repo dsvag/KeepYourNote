@@ -26,6 +26,9 @@
         <action
             android:id="@+id/action_noteFragment_to_labelFragment"
             app:destination="@id/labelFragment" />
+        <action
+            android:id="@+id/action_noteFragment_to_colorSheet"
+            app:destination="@id/colorSheet" />
     </fragment>
 
     <fragment
@@ -37,5 +40,15 @@
             android:id="@+id/action_labelFragment_to_noteFragment"
             app:destination="@id/noteFragment" />
     </fragment>
+
+    <dialog
+        android:id="@+id/colorSheet"
+        android:name="com.dsvag.keepyournote.ui.sheets.ColorSheet"
+        android:label="Color picker"
+        tools:layout="@layout/sheet_color">
+        <action
+            android:id="@+id/action_colorSheet_to_noteFragment"
+            app:destination="@id/noteFragment" />
+    </dialog>
 
 </navigation>

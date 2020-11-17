@@ -1,10 +1,7 @@
 package com.dsvag.keepyournote.data.viewmodels
 
 import android.app.Application
-import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 import com.dsvag.keepyournote.data.di.getAppComponent
 import com.dsvag.keepyournote.data.models.Note
 import kotlinx.coroutines.Dispatchers
@@ -14,7 +11,7 @@ class NoteViewModel(application: Application) : AndroidViewModel(application) {
 
     private val repository = application.getAppComponent().noteRepository
 
-    val getNotes = repository.getNoteFromDb()
+    val getNotes = repository.getNotes().asLiveData()
 
     fun insert(note: Note) {
         viewModelScope.launch(Dispatchers.IO) {

@@ -21,5 +21,7 @@ data class Note(
     var color: Int = 0,
 
     @SerializedName("labels")
-    var labels: List<Label> = emptyList(),
-) : Serializable
+    val labels: MutableList<Label> = mutableListOf(),
+) : Serializable {
+    fun isNotEmpty() = description.isNotEmpty() || title.isNotEmpty()
+}

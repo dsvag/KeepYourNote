@@ -4,14 +4,17 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.*
 import android.widget.Toast
+import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.GridLayoutManager
 import com.dsvag.keepyournote.R
+import com.dsvag.keepyournote.data.adapters.label.LabelAdapter
 import com.dsvag.keepyournote.data.models.Note
 import com.dsvag.keepyournote.data.viewmodels.NoteViewModel
 import com.dsvag.keepyournote.databinding.FragmentNoteBinding
-import dev.sasikanth.colorsheet.ColorSheet
+import com.dsvag.keepyournote.ui.sheets.ColorSheet
 
 class NoteFragment : Fragment() {
 
@@ -23,6 +26,8 @@ class NoteFragment : Fragment() {
             .get(NoteViewModel::class.java)
     }
 
+    private val labelAdapter by lazy { LabelAdapter() }
+
     private lateinit var note: Note
 
     private var isDelete: Boolean = false
@@ -33,26 +38,38 @@ class NoteFragment : Fragment() {
         _binding = FragmentNoteBinding.inflate(inflater, container, false)
         setHasOptionsMenu(true)
 
+        initRv()
+
         val maybeNote = this.arguments?.getSerializable("note")
 
         if (maybeNote != null) {
             note = maybeNote as Note
             binding.title.setText(note.title)
             binding.description.setText(note.description)
-            painColorIcon(note.color)
+            labelAdapter.setData(note.labels)
         } else {
             note = Note(title = "", description = "")
         }
 
         binding.description.requestFocus()
 
+        binding.title.addTextChangedListener {
+            note.title = it.toString().trim()
+        }
+
+        binding.description.addTextChangedListener {
+            note.description = it.toString().trim()
+        }
+
         return binding.root
     }
 
     override fun onPause() {
         super.onPause()
-        if (!isDelete) {
-            saveNote()
+        if (!isDelete && note.isNotEmpty()) {
+            viewModel.insert(note)
+        } else {
+            viewModel.deleteNote(note)
         }
     }
 
@@ -70,7 +87,7 @@ class NoteFragment : Fragment() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.label -> {
-                findNavController().navigate(R.id.action_noteFragment_to_labelFragment)
+                openLabelsPicker()
                 true
             }
             R.id.color -> {
@@ -78,7 +95,7 @@ class NoteFragment : Fragment() {
                 true
             }
             R.id.share -> {
-                if (checkNote()) {
+                if (note.isNotEmpty()) {
                     shareNote()
                 } else {
                     Toast.makeText(requireContext(), "Note empty", Toast.LENGTH_SHORT).show()
@@ -95,21 +112,12 @@ class NoteFragment : Fragment() {
         }
     }
 
-    private fun saveNote() {
-        val titleText = binding.title.text.toString().trim()
-        val descriptionText = binding.description.text.toString().trim()
-
-        note = note.copy(
-            title = titleText,
-            description = descriptionText,
-        )
-
-        if (checkNote()) {
-            viewModel.insert(note)
-        }
+    private fun initRv() {
+        binding.labels.layoutManager = GridLayoutManager(requireContext(), 3)
+        binding.labels.setHasFixedSize(false)
+        binding.labels.adapter = labelAdapter
+        labelAdapter.setIsInNote(false)
     }
-
-    private fun checkNote() = note.description.isNotEmpty() || note.title.isNotEmpty()
 
     private fun shareNote() {
         val text = StringBuilder().apply {
@@ -128,38 +136,13 @@ class NoteFragment : Fragment() {
         startActivity(Intent.createChooser(sendIntent, "Send via"))
     }
 
+    private fun openLabelsPicker() {
+        //TODO
+    }
+
     private fun openColorPicker() {
         ColorSheet()
-            .colorPicker(
-                colors = colors(),
-                noColorOption = true,
-                listener = { color ->
-                    note = note.copy(color = color)
-                    painColorIcon(color)
-                }
-            ).show(requireActivity().supportFragmentManager)
+            .setOnClickListener { color -> note.color = color }
+            .show(parentFragmentManager, "Colors")
     }
-
-    private fun painColorIcon(color: Int) {
-        val drawable = requireContext().getDrawable(R.drawable.ic_baseline_color_lens)!!
-        if (color == -1) {
-            drawable.setTint(requireContext().getColor(R.color.white))
-        } else {
-            drawable.setTint(color)
-        }
-    }
-
-    private fun colors() = intArrayOf(
-        requireContext().getColor(R.color.coral_a200),
-        requireContext().getColor(R.color.pink_a200),
-        requireContext().getColor(R.color.fuchsia_a200),
-        requireContext().getColor(R.color.purple_a200),
-        requireContext().getColor(R.color.blue_a200),
-        requireContext().getColor(R.color.aqua_a200),
-        requireContext().getColor(R.color.mint_a200),
-        requireContext().getColor(R.color.yellow_a200),
-        requireContext().getColor(R.color.orange_a200),
-        requireContext().getColor(R.color.brown_a200),
-        requireContext().getColor(R.color.grey_a200),
-    )
 }

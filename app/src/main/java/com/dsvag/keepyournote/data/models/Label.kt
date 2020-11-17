@@ -12,5 +12,5 @@ data class Label(
     val id: Long = 0,
 
     @SerializedName("title")
-    val title: String,
+    var title: String,
 ) : Serializable

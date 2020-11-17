@@ -15,6 +15,9 @@
     <color name="not_black">#FF101010</color>
 
     <color name="error_red">#FFFF0000</color>
+
+    <color name="white_background">#FFDDDDDD</color>
+
     <color name="hint_color_light">#808080</color>
     <color name="hint_color_dark">#C0C0C0</color>
 

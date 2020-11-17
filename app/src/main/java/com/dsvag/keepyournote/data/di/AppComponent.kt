@@ -1,11 +1,13 @@
 package com.dsvag.keepyournote.data.di
 
 import android.app.Application
+import androidx.datastore.preferences.createDataStore
 import androidx.room.Room
 import com.dsvag.keepyournote.data.database.label.LabelDatabase
 import com.dsvag.keepyournote.data.database.note.NoteDatabase
 import com.dsvag.keepyournote.data.repository.LabelRepository
 import com.dsvag.keepyournote.data.repository.NoteRepository
+import com.dsvag.keepyournote.data.repository.ThemeRepository
 
 class AppComponent(application: Application) {
 
@@ -28,4 +30,8 @@ class AppComponent(application: Application) {
     private val labelDao = labelDatabase.labelDao()
 
     val labelRepository by lazy { LabelRepository(labelDao) }
+
+    private val dataStore = application.createDataStore(name = "settings")
+
+    val themeRepository by lazy { ThemeRepository(dataStore) }
 }

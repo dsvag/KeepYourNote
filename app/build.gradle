@@ -77,6 +77,6 @@ dependencies {
     implementation "androidx.lifecycle:lifecycle-livedata-ktx:$lifecycleVersion"
     implementation "androidx.lifecycle:lifecycle-extensions:$lifecycleVersion"
 
-    //ColorSheet
-    implementation "dev.sasikanth:colorsheet:1.0.1"
+    //DataStore
+    implementation "androidx.datastore:datastore-preferences:1.0.0-alpha03"
 }

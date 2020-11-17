@@ -7,7 +7,7 @@ import com.dsvag.keepyournote.data.models.Note
 class NoteRepository(
     private val noteDao: NoteDao,
 ) {
-    fun getNoteFromDb() = noteDao.getNotes().asLiveData()
+    fun getNotes() = noteDao.getNotes()
 
     suspend fun insertNote(note: Note) {
         noteDao.addNote(note)
