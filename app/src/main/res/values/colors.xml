@@ -1,24 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="purple_300">#7C4DFF</color>
+    <color name="purple_300">#FF7C4DFF</color>
     <color name="purple_500">#FF6200EE</color>
-    <color name="purple_700">#3F00B3</color>
+    <color name="purple_700">#FF3F00B3</color>
 
-    <color name="teal_300">#84FFFF</color>
-    <color name="teal_500">#18FFFF</color>
-    <color name="teal_700">#00B8D4</color>
+    <color name="teal_300">#FF84FFFF</color>
+    <color name="teal_500">#FF18FFFF</color>
+    <color name="teal_700">#FF00B8D4</color>
 
-    <color name="white">#FFFFFF</color>
+    <color name="white">#FFFFFFFF</color>
     <color name="black">#FF000000</color>
 
-    <color name="not_white">#F0F0F0</color>
-    <color name="not_black">#020202</color>
-
-    <color name="not_white_dark">#B5B5B5</color>
-    <color name="not_black_light">#252525</color>
+    <color name="not_white">#FFF5F5F5</color>
+    <color name="not_black">#FF101010</color>
 
     <color name="error_red">#FFFF0000</color>
 
+    <color name="white_background">#FFDDDDDD</color>
+
+    <color name="hint_color_light">#808080</color>
+    <color name="hint_color_dark">#C0C0C0</color>
+
     <color name="transparent">#00000000</color>
+
+    <!--ColorPicker colors -->
+    <color name="coral_a200">#FF5252</color>
+    <color name="pink_a200">#FF4081</color>
+    <color name="fuchsia_a200">#E040FB</color>
+    <color name="purple_a200">#7C4DFF</color>
+    <color name="blue_a200">#448AFF</color>
+    <color name="aqua_a200">#18FFFF</color>
+    <color name="mint_a200">#69F0AE</color>
+    <color name="yellow_a200">#FFFF00</color>
+    <color name="orange_a200">#FF6E40</color>
+    <color name="brown_a200">#8B4513</color>
+    <color name="grey_a200">#C0C0C0</color>
 
 </resources>

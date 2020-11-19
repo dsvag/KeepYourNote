@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
@@ -12,9 +13,9 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.dsvag.keepyournote.R
+import com.dsvag.keepyournote.data.adapters.ItemDecoration
 import com.dsvag.keepyournote.data.adapters.SwipeCallback
 import com.dsvag.keepyournote.data.adapters.note.NoteAdapter
-import com.dsvag.keepyournote.data.adapters.note.NoteDecoration
 import com.dsvag.keepyournote.data.adapters.note.NoteDiffUtilCallback
 import com.dsvag.keepyournote.data.models.Note
 import com.dsvag.keepyournote.data.viewmodels.NoteViewModel
@@ -41,7 +42,7 @@ class NoteListFragment : Fragment() {
         initRecyclerview()
 
         binding.newButton.setOnClickListener {
-            findNavController().navigate(R.id.noteFragment)
+            findNavController().navigate(R.id.action_noteListFragment_to_noteFragment)
         }
 
         return binding.root
@@ -65,12 +66,17 @@ class NoteListFragment : Fragment() {
     }
 
     private fun initRecyclerview() {
-        val noteDecoration = NoteDecoration(10)
-        val itemTouchHelper = ItemTouchHelper(SwipeCallback(::deleteNote))
+        val itemTouchHelper = ItemTouchHelper(
+            SwipeCallback(
+                ::deleteNote,
+                ContextCompat.getDrawable(requireContext(), R.drawable.ic_baseline_delete)!!,
+                requireContext().getColor(R.color.error_red),
+            )
+        )
 
         binding.recyclerview.setHasFixedSize(true)
         binding.recyclerview.layoutManager = StaggeredGridLayoutManager(2, 1)
-        binding.recyclerview.addItemDecoration(noteDecoration)
+        binding.recyclerview.addItemDecoration(ItemDecoration(8))
         binding.recyclerview.adapter = noteAdapter
 
         itemTouchHelper.attachToRecyclerView(binding.recyclerview)

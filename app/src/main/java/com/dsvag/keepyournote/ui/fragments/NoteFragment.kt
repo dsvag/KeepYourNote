@@ -3,12 +3,18 @@ package com.dsvag.keepyournote.ui.fragments
 import android.content.Intent
 import android.os.Bundle
 import android.view.*
+import android.widget.Toast
+import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.GridLayoutManager
 import com.dsvag.keepyournote.R
+import com.dsvag.keepyournote.data.adapters.label.LabelAdapter
 import com.dsvag.keepyournote.data.models.Note
 import com.dsvag.keepyournote.data.viewmodels.NoteViewModel
 import com.dsvag.keepyournote.databinding.FragmentNoteBinding
+import com.dsvag.keepyournote.ui.sheets.ColorSheet
 
 class NoteFragment : Fragment() {
 
@@ -20,7 +26,11 @@ class NoteFragment : Fragment() {
             .get(NoteViewModel::class.java)
     }
 
+    private val labelAdapter by lazy { LabelAdapter() }
+
     private lateinit var note: Note
+
+    private var isDelete: Boolean = false
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
@@ -28,24 +38,44 @@ class NoteFragment : Fragment() {
         _binding = FragmentNoteBinding.inflate(inflater, container, false)
         setHasOptionsMenu(true)
 
+        initRv()
+
         val maybeNote = this.arguments?.getSerializable("note")
 
         if (maybeNote != null) {
             note = maybeNote as Note
             binding.title.setText(note.title)
             binding.description.setText(note.description)
+            labelAdapter.setData(note.labels)
         } else {
             note = Note(title = "", description = "")
         }
 
         binding.description.requestFocus()
 
+        binding.title.addTextChangedListener {
+            note.title = it.toString().trim()
+        }
+
+        binding.description.addTextChangedListener {
+            note.description = it.toString().trim()
+        }
+
         return binding.root
+    }
+
+    override fun onStart() {
+        super.onStart()
+        viewModel.keyBoardUtils.showKeyBoard(binding.description)
     }
 
     override fun onPause() {
         super.onPause()
-        saveNote()
+        if (!isDelete && note.isNotEmpty()) {
+            viewModel.insertNote(note)
+        } else {
+            viewModel.deleteNote(note)
+        }
     }
 
     override fun onDestroyView() {
@@ -61,29 +91,63 @@ class NoteFragment : Fragment() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
+            R.id.label -> {
+                openLabelsPicker()
+                true
+            }
+            R.id.color -> {
+                openColorPicker()
+                true
+            }
             R.id.share -> {
-                val sendIntent = Intent()
-                sendIntent.action = Intent.ACTION_SEND
-                sendIntent.putExtra(Intent.EXTRA_SUBJECT, binding.title.text.toString().trim())
-                sendIntent.putExtra(Intent.EXTRA_TEXT, binding.description.text.toString().trim())
-                sendIntent.type = "text/plain"
-                Intent.createChooser(sendIntent, "Send via")
-                startActivity(sendIntent)
+                if (note.isNotEmpty()) {
+                    shareNote()
+                } else {
+                    Toast.makeText(requireContext(), "Note empty", Toast.LENGTH_SHORT).show()
+                }
+                true
+            }
+            R.id.delete -> {
+                isDelete = true
+                viewModel.deleteNote(note)
+                findNavController().popBackStack()
                 true
             }
             else -> super.onOptionsItemSelected(item)
         }
     }
 
+    private fun initRv() {
+        binding.labels.layoutManager = GridLayoutManager(requireContext(), 3)
+        binding.labels.setHasFixedSize(false)
+        binding.labels.adapter = labelAdapter
+        labelAdapter.setIsInNote(false)
+    }
 
-    private fun saveNote() {
-        val titleText = binding.title.text.toString().trim()
-        val descriptionText = binding.description.text.toString().trim()
-
-        note = note.copy(title = titleText, description = descriptionText)
-
-        if (note.description.isNotEmpty() || note.title.isNotEmpty()) {
-            viewModel.insert(note)
+    private fun shareNote() {
+        val text = StringBuilder().apply {
+            append(binding.title.text.toString().trim())
+            append("\n")
+            append(binding.description.text.toString().trim())
         }
+
+        val sendIntent = Intent().apply {
+            action = Intent.ACTION_SEND
+            putExtra(Intent.EXTRA_TEXT, text.toString())
+            type = "text/plain"
+            flags = Intent.FLAG_GRANT_READ_URI_PERMISSION
+        }
+
+        startActivity(Intent.createChooser(sendIntent, "Send via"))
+    }
+
+    private fun openLabelsPicker() {
+        //TODO
+    }
+
+    private fun openColorPicker() {
+        ColorSheet()
+            .setOnClickListener { color -> note.color = color }
+            .show(parentFragmentManager, "Colors")
     }
 }

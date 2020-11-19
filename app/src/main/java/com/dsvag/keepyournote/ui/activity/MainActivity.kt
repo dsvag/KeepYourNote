@@ -35,18 +35,14 @@ class MainActivity : AppCompatActivity() {
         return navController.navigateUp() || super.onSupportNavigateUp()
     }
 
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.toolbar_main_menu, menu)
         return true
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
-            R.id.settings -> {
-                //navController.navigate(R.id.settingsFragment)
-                true
-            }
-            R.id.choseThem -> {
+            R.id.choseTheme -> {
                 changeTheme()
                 true
             }

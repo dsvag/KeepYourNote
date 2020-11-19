@@ -3,35 +3,33 @@ package com.dsvag.keepyournote.data.viewmodels
 import android.app.Application
 import androidx.lifecycle.*
 import com.dsvag.keepyournote.data.di.getAppComponent
-import com.dsvag.keepyournote.data.models.Note
+import com.dsvag.keepyournote.data.models.Label
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class NoteViewModel(application: Application) : AndroidViewModel(application) {
+class LabelViewModel(application: Application) : AndroidViewModel(application) {
 
-    private val repository = application.getAppComponent().noteRepository
+    private val repository = application.getAppComponent().labelRepository
 
-    val keyBoardUtils = application.getAppComponent().keyBoardUtils
+    val getLabels = repository.getLabels().asLiveData()
 
-    val getNotes = repository.getNotes().asLiveData()
-
-    fun insertNote(note: Note) {
+    fun insertLabel(label: Label) {
         viewModelScope.launch(Dispatchers.IO) {
-            repository.insertNote(note)
+            repository.insertLabel(label)
         }
     }
 
-    fun deleteNote(note: Note) {
+    fun deleteLabel(label: Label) {
         viewModelScope.launch(Dispatchers.IO) {
-            repository.deleteNote(note)
+            repository.deleteLabel(label)
         }
     }
 
     class Factory(val app: Application) : ViewModelProvider.Factory {
         override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-            if (modelClass.isAssignableFrom(NoteViewModel::class.java)) {
+            if (modelClass.isAssignableFrom(LabelViewModel::class.java)) {
                 @Suppress("UNCHECKED_CAST")
-                return NoteViewModel(app) as T
+                return LabelViewModel(app) as T
             }
             throw IllegalArgumentException("Unable to construct viewModel")
         }

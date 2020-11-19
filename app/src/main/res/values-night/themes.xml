@@ -18,6 +18,8 @@
         <item name="colorError">@color/error_red</item>
         <item name="colorOnError">@color/white</item>
 
+        <item name="hintTextColor">@color/hint_color_light</item>
+
         <item name="selectableItemBackground">@color/not_white</item>
 
         <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimary</item>
