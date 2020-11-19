@@ -11,9 +11,11 @@ class NoteViewModel(application: Application) : AndroidViewModel(application) {
 
     private val repository = application.getAppComponent().noteRepository
 
+    val keyBoardUtils = application.getAppComponent().keyBoardUtils
+
     val getNotes = repository.getNotes().asLiveData()
 
-    fun insert(note: Note) {
+    fun insertNote(note: Note) {
         viewModelScope.launch(Dispatchers.IO) {
             repository.insertNote(note)
         }

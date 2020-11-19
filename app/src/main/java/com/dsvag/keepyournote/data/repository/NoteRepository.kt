@@ -1,6 +1,5 @@
 package com.dsvag.keepyournote.data.repository
 
-import androidx.lifecycle.asLiveData
 import com.dsvag.keepyournote.data.database.note.NoteDao
 import com.dsvag.keepyournote.data.models.Note
 
@@ -10,7 +9,7 @@ class NoteRepository(
     fun getNotes() = noteDao.getNotes()
 
     suspend fun insertNote(note: Note) {
-        noteDao.addNote(note)
+        noteDao.insertNote(note)
     }
 
     suspend fun deleteNote(note: Note) {

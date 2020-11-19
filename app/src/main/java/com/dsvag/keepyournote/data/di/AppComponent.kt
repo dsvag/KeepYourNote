@@ -1,6 +1,8 @@
 package com.dsvag.keepyournote.data.di
 
 import android.app.Application
+import android.view.inputmethod.InputMethodManager
+import androidx.core.content.ContextCompat.getSystemService
 import androidx.datastore.preferences.createDataStore
 import androidx.room.Room
 import com.dsvag.keepyournote.data.database.label.LabelDatabase
@@ -8,6 +10,7 @@ import com.dsvag.keepyournote.data.database.note.NoteDatabase
 import com.dsvag.keepyournote.data.repository.LabelRepository
 import com.dsvag.keepyournote.data.repository.NoteRepository
 import com.dsvag.keepyournote.data.repository.ThemeRepository
+import com.dsvag.keepyournote.data.utils.KeyBoardUtils
 
 class AppComponent(application: Application) {
 
@@ -18,6 +21,11 @@ class AppComponent(application: Application) {
     }
 
     private val noteDao = noteDatabase.noteDao()
+
+    val keyBoardUtils
+            by lazy {
+                KeyBoardUtils(getSystemService(application, InputMethodManager::class.java)!!)
+            }
 
     val noteRepository by lazy { NoteRepository(noteDao) }
 

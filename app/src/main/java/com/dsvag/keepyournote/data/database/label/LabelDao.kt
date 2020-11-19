@@ -7,7 +7,7 @@ import kotlinx.coroutines.flow.Flow
 @Dao
 interface LabelDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun addLabel(label: Label)
+    suspend fun insertLabel(label: Label)
 
     @Delete
     suspend fun deleteLabel(label: Label)

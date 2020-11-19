@@ -47,7 +47,7 @@ class LabelFragment : Fragment() {
         }
 
         binding.clear.setOnClickListener {
-            viewModel.removeLabel(label)
+            viewModel.deleteLabel(label)
             binding.newLabel.text?.clear()
         }
 

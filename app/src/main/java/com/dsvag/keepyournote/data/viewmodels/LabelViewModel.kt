@@ -19,9 +19,9 @@ class LabelViewModel(application: Application) : AndroidViewModel(application) {
         }
     }
 
-    fun removeLabel(label: Label) {
+    fun deleteLabel(label: Label) {
         viewModelScope.launch(Dispatchers.IO) {
-            repository.removeLabel(label)
+            repository.deleteLabel(label)
         }
     }
 

@@ -64,10 +64,15 @@ class NoteFragment : Fragment() {
         return binding.root
     }
 
+    override fun onStart() {
+        super.onStart()
+        viewModel.keyBoardUtils.showKeyBoard(binding.description)
+    }
+
     override fun onPause() {
         super.onPause()
         if (!isDelete && note.isNotEmpty()) {
-            viewModel.insert(note)
+            viewModel.insertNote(note)
         } else {
             viewModel.deleteNote(note)
         }

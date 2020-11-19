@@ -8,8 +8,12 @@ class LabelRepository(
 ) {
     fun getLabels() = labelDao.getLabels()
 
-    suspend fun insertLabel(label: Label) = labelDao.addLabel(label)
+    suspend fun insertLabel(label: Label) {
+        labelDao.insertLabel(label)
+    }
 
-    suspend fun removeLabel(label: Label) = labelDao.deleteLabel(label)
+    suspend fun deleteLabel(label: Label) {
+        labelDao.deleteLabel(label)
+    }
 
 }
