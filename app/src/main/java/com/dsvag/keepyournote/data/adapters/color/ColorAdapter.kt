@@ -9,23 +9,23 @@ import com.dsvag.keepyournote.R
 import com.dsvag.keepyournote.databinding.RowColorBinding
 import com.dsvag.keepyournote.ui.sheets.ColorSheet
 
-class ColorAdapter : RecyclerView.Adapter<ColorAdapter.ColourViewHolder>() {
+class ColorAdapter : RecyclerView.Adapter<ColorAdapter.ColorViewHolder>() {
 
     private var colors = intArrayOf()
 
     private var onClickListener: ((Int) -> Unit) = {}
     private var dialog: ColorSheet? = null
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ColourViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ColorViewHolder {
         val inflater = LayoutInflater.from(parent.context)
-        return ColourViewHolder(
+        return ColorViewHolder(
             RowColorBinding.inflate(inflater, parent, false),
             onClickListener,
             dialog,
         )
     }
 
-    override fun onBindViewHolder(holder: ColourViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: ColorViewHolder, position: Int) {
         holder.bind(colors[position])
     }
 
@@ -41,7 +41,7 @@ class ColorAdapter : RecyclerView.Adapter<ColorAdapter.ColourViewHolder>() {
         onClickListener = onClick
     }
 
-    class ColourViewHolder(
+    class ColorViewHolder(
         private val itemBinding: RowColorBinding,
         private val onClickListener: (Int) -> Unit,
         private val dialog: ColorSheet?,
@@ -50,7 +50,7 @@ class ColorAdapter : RecyclerView.Adapter<ColorAdapter.ColourViewHolder>() {
         fun bind(color: Int) {
             if (adapterPosition == 0) {
                 itemBinding.color.backgroundTintList =
-                    ContextCompat.getColorStateList(itemBinding.root.context, R.color.transparent)
+                    ContextCompat.getColorStateList(itemBinding.root.context, R.color.not_black)
 
                 itemBinding.color.setImageDrawable(
                     ContextCompat.getDrawable(itemBinding.root.context, R.drawable.ic_invisible)

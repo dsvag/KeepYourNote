@@ -5,14 +5,14 @@
     android:layout_height="wrap_content"
     android:background="?attr/colorSurface"
     android:orientation="vertical"
+    android:padding="16dp"
     tools:context=".ui.sheets.ColorSheet">
 
     <com.google.android.material.textview.MaterialTextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/transparent"
-        android:paddingHorizontal="32dp"
-        android:paddingTop="16dp"
+        android:paddingHorizontal="16dp"
         android:text="Pick color"
         android:textColor="?attr/colorOnSurface"
         android:textSize="24sp" />
@@ -20,7 +20,6 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/colors"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="16dp" />
+        android:layout_height="wrap_content" />
 
 </LinearLayout>
