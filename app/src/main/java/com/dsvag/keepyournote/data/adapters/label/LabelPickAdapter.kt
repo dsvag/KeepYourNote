@@ -8,19 +8,21 @@ import com.dsvag.keepyournote.data.models.Label
 import com.dsvag.keepyournote.databinding.RowLabelPickerBinding
 
 class LabelPickAdapter(
-    private val onClickCallback: (label: Label) -> Unit,
+    private val onLabelClick: (label: Label) -> Unit,
 ) : RecyclerView.Adapter<LabelPickAdapter.LabelPickViewHolder>() {
 
-    private val labels: MutableList<Label> = mutableListOf()
-    private val checkedLabels: MutableList<Label> = mutableListOf()
+    var labels: MutableList<Label> = mutableListOf()
+        private set
+
+    var checkedLabels: MutableList<Label> = mutableListOf()
+        private set
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): LabelPickViewHolder {
         val inflater = LayoutInflater.from(parent.context)
         return LabelPickViewHolder(
             RowLabelPickerBinding.inflate(inflater, parent, false),
-            ::addToChecked,
-            ::removeFromChecked,
-            ::onClick,
+            onLabelClick,
+            ::onStateChanged,
         )
     }
 
@@ -36,35 +38,24 @@ class LabelPickAdapter(
         diffResult.dispatchUpdatesTo(this)
     }
 
-    fun getData() = labels
-
-    private fun onClick(label: Label) {
-        onClickCallback(label)
-    }
-
-    private fun addToChecked(position: Int) {
-        checkedLabels.add(labels[position])
-    }
-
-    private fun removeFromChecked(label: Label) {
-        checkedLabels.remove(label)
+    private fun onStateChanged(state: Boolean, label: Label) {
+        if (state) {
+            checkedLabels.add(label)
+        } else {
+            checkedLabels.remove(label)
+        }
     }
 
     class LabelPickViewHolder(
         private val itemBinding: RowLabelPickerBinding,
-        private val add: (position: Int) -> Unit,
-        private val remove: (label: Label) -> Unit,
         private val onClick: (label: Label) -> Unit,
+        private val onStateChanged: (Boolean, Label) -> Unit,
     ) : RecyclerView.ViewHolder(itemBinding.root) {
 
         fun bind(label: Label) {
             itemBinding.text.text = label.title
             itemBinding.checkBox.setOnCheckedChangeListener { _, isChecked ->
-                if (isChecked) {
-                    add(adapterPosition)
-                } else {
-                    remove(label)
-                }
+                onStateChanged(isChecked, label)
             }
 
             itemBinding.root.setOnClickListener {

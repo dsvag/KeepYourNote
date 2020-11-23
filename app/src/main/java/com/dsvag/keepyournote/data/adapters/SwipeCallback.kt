@@ -6,6 +6,7 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.dsvag.keepyournote.R
+import kotlin.math.abs
 
 class SwipeCallback(
     private val leftSwipeAction: (Int) -> Unit,
@@ -54,6 +55,8 @@ class SwipeCallback(
                 val iconLeft = itemView.left + rightIconMargin
                 val iconRight = itemView.left + rightIconMargin + rightSwipeIcon.intrinsicWidth
 
+                itemView.elevation = 4f
+
                 rightSwipeIcon.setTint(rightSwipeIconColor)
                 rightSwipeIcon.setBounds(iconLeft, iconTop, iconRight, iconBottom)
             }
@@ -63,6 +66,8 @@ class SwipeCallback(
                 val iconLeft = itemView.right - leftIconMargin - leftSwipeIcon.intrinsicWidth
                 val iconRight = itemView.right - leftIconMargin
 
+                itemView.elevation = 4f
+
                 leftSwipeIcon.setTint(leftSwipeIconColor)
                 leftSwipeIcon.setBounds(iconLeft, iconTop, iconRight, iconBottom)
             }
@@ -70,9 +75,12 @@ class SwipeCallback(
                 val color = ContextCompat.getColor(viewHolder.itemView.context, R.color.white)
                 leftSwipeIcon.setTint(color)
                 rightSwipeIcon.setTint(color)
+
+                itemView.elevation = 8f
             }
         }
 
+        itemView.alpha = 1 - (abs(dX) / 500)
         leftSwipeIcon.draw(c)
         rightSwipeIcon.draw(c)
     }

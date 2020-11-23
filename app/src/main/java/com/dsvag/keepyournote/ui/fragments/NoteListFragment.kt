@@ -20,6 +20,7 @@ import com.dsvag.keepyournote.data.adapters.note.NoteDiffUtilCallback
 import com.dsvag.keepyournote.data.models.Note
 import com.dsvag.keepyournote.data.viewmodels.NoteViewModel
 import com.dsvag.keepyournote.databinding.FragmentNoteListBinding
+import com.google.android.material.snackbar.Snackbar
 
 class NoteListFragment : Fragment() {
 
@@ -36,7 +37,7 @@ class NoteListFragment : Fragment() {
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = FragmentNoteListBinding.inflate(inflater, container, false)
 
         initRecyclerview()
@@ -84,17 +85,28 @@ class NoteListFragment : Fragment() {
         binding.recyclerview.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 super.onScrolled(recyclerView, dx, dy)
-                if (dy > 0 && binding.newButton.visibility == View.VISIBLE) {
+                if (dy > 0) {
                     binding.newButton.hide()
-                } else if (dy < 0 && binding.newButton.visibility != View.VISIBLE) {
+                } else if (dy < 0) {
                     binding.newButton.show()
                 }
             }
         })
     }
 
+    private fun showDeleteSnackbar(note: Note, position: Int) {
+        Snackbar
+            .make(binding.root, "Note has deleted.", Snackbar.LENGTH_LONG)
+            .setAction("Undo") {
+                viewModel.insertNote(note)
+                binding.recyclerview.scrollToPosition(position)
+            }
+            .show()
+    }
+
     private fun deleteNote(position: Int) {
         val note = noteAdapter.getItem(position)
+        showDeleteSnackbar(note, position)
         viewModel.deleteNote(note)
     }
 }

@@ -24,20 +24,20 @@
             android:id="@+id/action_noteFragment_to_noteListFragment"
             app:destination="@id/noteListFragment" />
         <action
-            android:id="@+id/action_noteFragment_to_labelFragment"
-            app:destination="@id/labelFragment" />
+            android:id="@+id/action_noteFragment_to_labelPickFragment"
+            app:destination="@id/labelPickFragment" />
         <action
             android:id="@+id/action_noteFragment_to_colorSheet"
             app:destination="@id/colorSheet" />
     </fragment>
 
     <fragment
-        android:id="@+id/labelFragment"
-        android:name="com.dsvag.keepyournote.ui.fragments.LabelFragment"
+        android:id="@+id/labelPickFragment"
+        android:name="com.dsvag.keepyournote.ui.fragments.LabelPickFragment"
         android:label="Pick label"
-        tools:layout="@layout/fragment_label">
+        tools:layout="@layout/fragment_labelPick">
         <action
-            android:id="@+id/action_labelFragment_to_noteFragment"
+            android:id="@+id/action_labelPickFragment_to_noteFragment"
             app:destination="@id/noteFragment" />
     </fragment>
 

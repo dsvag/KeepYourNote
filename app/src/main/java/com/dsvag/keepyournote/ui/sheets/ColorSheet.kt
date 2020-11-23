@@ -20,7 +20,7 @@ class ColorSheet : BottomSheetDialogFragment() {
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = SheetColorBinding.inflate(inflater, container, false)
 
         binding.colors.layoutManager = GridLayoutManager(requireContext(), 6)

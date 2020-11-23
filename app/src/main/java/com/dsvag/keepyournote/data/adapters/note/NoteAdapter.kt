@@ -49,7 +49,7 @@ class NoteAdapter : RecyclerView.Adapter<NoteAdapter.NoteViewHolder>() {
 
     fun getItem(position: Int) = noteList[position]
 
-    fun getData(): List<Note> = noteList
+    fun getData() = noteList
 
     class NoteViewHolder(private val itemBinding: RowNoteBinding) :
         RecyclerView.ViewHolder(itemBinding.root) {
@@ -65,11 +65,7 @@ class NoteAdapter : RecyclerView.Adapter<NoteAdapter.NoteViewHolder>() {
 
             val background = itemBinding.root.background!! as GradientDrawable
 
-            if (note.color != -1) {
-                background.setStroke(4, note.color)
-            } else {
-                background.setStroke(0, note.color)
-            }
+            background.setStroke(4, note.color)
 
             itemBinding.labels.setHasFixedSize(true)
             itemBinding.labels.layoutManager =

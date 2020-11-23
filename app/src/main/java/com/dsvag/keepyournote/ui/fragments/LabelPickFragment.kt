@@ -12,11 +12,11 @@ import com.dsvag.keepyournote.data.adapters.label.LabelDiffUtilCallback
 import com.dsvag.keepyournote.data.adapters.label.LabelPickAdapter
 import com.dsvag.keepyournote.data.models.Label
 import com.dsvag.keepyournote.data.viewmodels.LabelViewModel
-import com.dsvag.keepyournote.databinding.FragmentLabelBinding
+import com.dsvag.keepyournote.databinding.FragmentLabelPickBinding
 
-class LabelFragment : Fragment() {
+class LabelPickFragment : Fragment() {
 
-    private var _binding: FragmentLabelBinding? = null
+    private var _binding: FragmentLabelPickBinding? = null
     private val binding get() = _binding!!
 
     private val viewModel by lazy {
@@ -24,30 +24,27 @@ class LabelFragment : Fragment() {
             .get(LabelViewModel::class.java)
     }
 
-    private val labelsAdapter by lazy { LabelPickAdapter(::onClickListener) }
+    private val labelsAdapter by lazy { LabelPickAdapter(::onLabelClick) }
 
     private var label = Label(title = "")
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
-    ): View? {
-        _binding = FragmentLabelBinding.inflate(inflater, container, false)
+    ): View {
+        _binding = FragmentLabelPickBinding.inflate(inflater, container, false)
         setHasOptionsMenu(true)
 
         initRv()
 
         binding.add.setOnClickListener {
-            val text = binding.newLabel.text.toString().trim()
-
-            if (text.isNotEmpty()) {
-                viewModel.insertLabel(Label(title = text))
+            if (label.title.isNotEmpty()) {
+                viewModel.insertLabel(label)
                 binding.newLabel.text?.clear()
                 binding.newLabel.clearFocus()
             }
         }
 
         binding.clear.setOnClickListener {
-            viewModel.deleteLabel(label)
             binding.newLabel.text?.clear()
         }
 
@@ -63,7 +60,7 @@ class LabelFragment : Fragment() {
             if (newLabelList != null) {
                 labelsAdapter.setData(
                     newLabelList, DiffUtil.calculateDiff(
-                        LabelDiffUtilCallback(labelsAdapter.getData(), newLabelList)
+                        LabelDiffUtilCallback(labelsAdapter.labels, newLabelList)
                     )
                 )
             }
@@ -87,10 +84,11 @@ class LabelFragment : Fragment() {
         binding.labels.adapter = labelsAdapter
     }
 
-    private fun onClickListener(label: Label) {
+    private fun onLabelClick(label: Label) {
         this.label = label
         binding.newLabel.setText(label.title)
         binding.newLabel.setSelection(label.title.length)
         binding.newLabel.requestFocus()
+        viewModel.deleteLabel(label)
     }
 }

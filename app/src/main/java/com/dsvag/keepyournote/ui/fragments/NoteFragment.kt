@@ -11,6 +11,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.dsvag.keepyournote.R
 import com.dsvag.keepyournote.data.adapters.label.LabelAdapter
+import com.dsvag.keepyournote.data.models.Label
 import com.dsvag.keepyournote.data.models.Note
 import com.dsvag.keepyournote.data.viewmodels.NoteViewModel
 import com.dsvag.keepyournote.databinding.FragmentNoteBinding
@@ -34,22 +35,13 @@ class NoteFragment : Fragment() {
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = FragmentNoteBinding.inflate(inflater, container, false)
         setHasOptionsMenu(true)
 
+
+
         initRv()
-
-        val maybeNote = this.arguments?.getSerializable("note")
-
-        if (maybeNote != null) {
-            note = maybeNote as Note
-            binding.title.setText(note.title)
-            binding.description.setText(note.description)
-            labelAdapter.setData(note.labels)
-        } else {
-            note = Note(title = "", description = "")
-        }
 
         binding.description.requestFocus()
 
@@ -124,6 +116,27 @@ class NoteFragment : Fragment() {
         labelAdapter.setIsInNote(false)
     }
 
+    private fun checkArguments() {
+
+        val maybeNote = this.arguments?.getSerializable("note")
+        val maybeLabels = this.arguments?.getSerializable("labels")
+
+        if (maybeNote != null) {
+            note = maybeNote as Note
+            binding.title.setText(note.title)
+            binding.description.setText(note.description)
+            labelAdapter.setData(note.labels)
+        } else {
+            note = Note(title = "", description = "")
+        }
+
+        if (maybeLabels != null) {
+            note.labels.clear()
+            note.labels.addAll(maybeLabels as List<Label>)
+            labelAdapter.setData(note.labels)
+        }
+    }
+
     private fun shareNote() {
         val text = StringBuilder().apply {
             append(binding.title.text.toString().trim())
@@ -142,7 +155,8 @@ class NoteFragment : Fragment() {
     }
 
     private fun openLabelsPicker() {
-        //TODO
+//        add bundle with note labels
+//        findNavController().navigate(R.id.action_noteFragment_to_labelPickFragment)
     }
 
     private fun openColorPicker() {

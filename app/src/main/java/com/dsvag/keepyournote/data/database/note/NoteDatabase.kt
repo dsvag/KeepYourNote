@@ -6,7 +6,7 @@ import androidx.room.TypeConverters
 import com.dsvag.keepyournote.data.models.Note
 
 @TypeConverters(NoteConverter::class)
-@Database(entities = [Note::class], version = 1, exportSchema = false)
+@Database(entities = [Note::class], version = 1, exportSchema = true)
 abstract class NoteDatabase : RoomDatabase() {
     abstract fun noteDao(): NoteDao
 }
