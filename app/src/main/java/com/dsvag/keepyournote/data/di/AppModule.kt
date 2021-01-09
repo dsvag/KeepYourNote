@@ -6,6 +6,7 @@ import androidx.core.content.ContextCompat.getSystemService
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.createDataStore
+import androidx.room.Room
 import com.dsvag.keepyournote.data.database.note.NoteDao
 import com.dsvag.keepyournote.data.database.note.NoteDatabase
 import com.dsvag.keepyournote.data.repository.NoteRepository
@@ -35,8 +36,10 @@ object AppModule {
 
     @Singleton
     @Provides
-    fun provideDatabase(@ApplicationContext appContext: Context) =
-        NoteDatabase.getDatabase(appContext)
+    fun provideDatabase(@ApplicationContext appContext: Context): NoteDatabase {
+        return Room.databaseBuilder(appContext, NoteDatabase::class.java, "note-database")
+            .build()
+    }
 
     @Singleton
     @Provides
