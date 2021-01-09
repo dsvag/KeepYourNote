@@ -8,7 +8,6 @@
     <fragment
         android:id="@+id/noteListFragment"
         android:name="com.dsvag.keepyournote.ui.screens.notes.NoteListFragment"
-        android:label="@string/app_name"
         tools:layout="@layout/fragment_note_list">
         <action
             android:id="@+id/action_noteListFragment_to_noteFragment"
@@ -18,7 +17,6 @@
     <fragment
         android:id="@+id/noteFragment"
         android:name="com.dsvag.keepyournote.ui.screens.notes.NoteFragment"
-        android:label="Note"
         tools:layout="@layout/fragment_note">
         <action
             android:id="@+id/action_noteFragment_to_colorSheet"
@@ -28,7 +26,6 @@
     <dialog
         android:id="@+id/colorSheet"
         android:name="com.dsvag.keepyournote.ui.screens.colors.ColorSheet"
-        android:label="Color picker"
         tools:layout="@layout/sheet_color" />
 
 </navigation>
