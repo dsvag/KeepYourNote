@@ -1,7 +1,7 @@
 package com.dsvag.keepyournote.data.database.note
 
 import androidx.room.*
-import com.dsvag.keepyournote.data.models.Note
+import com.dsvag.keepyournote.models.Note
 import kotlinx.coroutines.flow.Flow
 
 @Dao

@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/noteListFragment"
-        android:name="com.dsvag.keepyournote.ui.fragments.NoteListFragment"
+        android:name="com.dsvag.keepyournote.ui.screens.notes.NoteListFragment"
         android:label="@string/app_name"
         tools:layout="@layout/fragment_note_list">
         <action
@@ -17,38 +17,18 @@
 
     <fragment
         android:id="@+id/noteFragment"
-        android:name="com.dsvag.keepyournote.ui.fragments.NoteFragment"
+        android:name="com.dsvag.keepyournote.ui.screens.notes.NoteFragment"
         android:label="Note"
         tools:layout="@layout/fragment_note">
-        <action
-            android:id="@+id/action_noteFragment_to_noteListFragment"
-            app:destination="@id/noteListFragment" />
-        <action
-            android:id="@+id/action_noteFragment_to_labelPickFragment"
-            app:destination="@id/labelPickFragment" />
         <action
             android:id="@+id/action_noteFragment_to_colorSheet"
             app:destination="@id/colorSheet" />
     </fragment>
 
-    <fragment
-        android:id="@+id/labelPickFragment"
-        android:name="com.dsvag.keepyournote.ui.fragments.LabelPickFragment"
-        android:label="Pick label"
-        tools:layout="@layout/fragment_labelPick">
-        <action
-            android:id="@+id/action_labelPickFragment_to_noteFragment"
-            app:destination="@id/noteFragment" />
-    </fragment>
-
     <dialog
         android:id="@+id/colorSheet"
-        android:name="com.dsvag.keepyournote.ui.sheets.ColorSheet"
+        android:name="com.dsvag.keepyournote.ui.screens.colors.ColorSheet"
         android:label="Color picker"
-        tools:layout="@layout/sheet_color">
-        <action
-            android:id="@+id/action_colorSheet_to_noteFragment"
-            app:destination="@id/noteFragment" />
-    </dialog>
+        tools:layout="@layout/sheet_color" />
 
 </navigation>

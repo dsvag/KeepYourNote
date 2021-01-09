@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="?attr/background"
-    tools:context=".ui.fragments.NoteListFragment">
+    tools:context=".ui.screens.notes.NoteListFragment">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerview"
@@ -22,9 +22,6 @@
         android:contentDescription="Create new note"
         android:elevation="8dp"
         android:theme="@style/Theme.FloatingActionButton"
-        app:borderWidth="0dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
         app:srcCompat="@drawable/ic_baseline_add" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

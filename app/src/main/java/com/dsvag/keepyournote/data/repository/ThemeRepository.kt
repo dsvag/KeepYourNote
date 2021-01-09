@@ -6,8 +6,9 @@ import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.preferencesKey
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
+import javax.inject.Inject
 
-class ThemeRepository(private val dataStore: DataStore<Preferences>) {
+class ThemeRepository @Inject constructor(private val dataStore: DataStore<Preferences>) {
 
     suspend fun getTheme(): Flow<Int> {
         return dataStore.data.map { preferences ->

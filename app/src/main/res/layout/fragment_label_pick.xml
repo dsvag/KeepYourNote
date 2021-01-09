@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="?attr/background"
     android:orientation="vertical"
-    tools:context=".ui.fragments.LabelPickFragment">
+    tools:context=".ui.screens.labels.LabelPickFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
