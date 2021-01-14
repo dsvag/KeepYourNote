@@ -11,7 +11,7 @@
         android:id="@+id/recyclerview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:overScrollMode="ifContentScrolls" />
+        android:overScrollMode="never" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/newButton"
@@ -23,6 +23,6 @@
         android:contentDescription="Create new note"
         android:elevation="8dp"
         android:theme="@style/Theme.FloatingActionButton"
-        app:srcCompat="@drawable/ic_baseline_add" />
+        app:srcCompat="@drawable/ic_add" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -24,13 +24,6 @@ class NoteAdapter : RecyclerView.Adapter<NoteAdapter.NoteViewHolder>() {
 
     override fun onBindViewHolder(holder: NoteViewHolder, position: Int) {
         holder.bind(noteList[position])
-
-        holder.itemView.setOnClickListener {
-            val bundle = Bundle().apply {
-                putParcelable("note", noteList[position])
-            }
-            holder.itemView.findNavController().navigate(R.id.noteFragment, bundle)
-        }
     }
 
     override fun getItemCount() = noteList.size
@@ -57,8 +50,19 @@ class NoteAdapter : RecyclerView.Adapter<NoteAdapter.NoteViewHolder>() {
             itemBinding.description.text = note.description
 
             val background = itemBinding.root.background!! as GradientDrawable
+            val noteStrokeWidth =
+                itemBinding.root.context.resources.getDimension(R.dimen.noteStrokeWidth).toInt()
 
-            background.setStroke(4, note.color)
+            background.setStroke(noteStrokeWidth, note.color)
+
+            itemBinding.root.setOnClickListener {
+                val bundle = Bundle().apply {
+                    putParcelable("note", note)
+                }
+
+                itemBinding.root.findNavController()
+                    .navigate(R.id.action_noteListFragment_to_noteFragment, bundle)
+            }
         }
     }
 }

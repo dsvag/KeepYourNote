@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "242935203663",
+    "project_id": "keep-your-note",
+    "storage_bucket": "keep-your-note.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:242935203663:android:910d8bdd3168ae7497a73a",
+        "android_client_info": {
+          "package_name": "com.dsvag.keepyournote"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "242935203663-vnve5vehnnf9r9f9id99s961paps0gfq.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.dsvag.keepyournote",
+            "certificate_hash": "a7745bfd38e2946d09a55fee5027db319e6bb36c"
+          }
+        },
+        {
+          "client_id": "242935203663-73rp882u5ab7552nqoq265fu399p1r6u.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDd3TrRk5E0FqhTbyouXl3IDOqyjH8NTYw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "242935203663-73rp882u5ab7552nqoq265fu399p1r6u.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

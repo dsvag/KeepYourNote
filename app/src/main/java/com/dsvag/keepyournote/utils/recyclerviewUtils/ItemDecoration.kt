@@ -1,4 +1,4 @@
-package com.dsvag.keepyournote.utils.recyclerviewutils
+package com.dsvag.keepyournote.utils.recyclerviewUtils
 
 import android.graphics.Rect
 import android.view.View

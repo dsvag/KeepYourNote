@@ -3,4 +3,8 @@
     <dimen name="smallCornerSize">8dp</dimen>
     <dimen name="mediumCornerSize">16dp</dimen>
     <dimen name="largeCornerSize">24dp</dimen>
+
+    <dimen name="noteStrokeWidth">2dp</dimen>
+
+    <item name="iconStrokeWidth" format="float" type="dimen">2.0</item>
 </resources>

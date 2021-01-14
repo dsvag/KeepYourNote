@@ -4,20 +4,20 @@
 
     <item
         android:id="@+id/color"
-        android:icon="@drawable/ic_baseline_color_lens"
+        android:icon="@drawable/ic_color_lens"
         android:title="Color"
         app:showAsAction="ifRoom" />
 
     <item
         android:id="@+id/share"
-        android:icon="@drawable/ic_baseline_share"
+        android:icon="@drawable/ic_share"
         android:title="Share"
         app:showAsAction="ifRoom" />
 
     <item
         android:id="@+id/delete"
-        android:icon="@drawable/ic_baseline_delete"
+        android:icon="@drawable/ic_delete"
         android:title="Delete"
-        app:showAsAction="never" />
+        app:showAsAction="ifRoom" />
 
 </menu>

@@ -34,8 +34,6 @@ class MainActivity : AppCompatActivity() {
 
         setSupportActionBar(binding.toolbar)
         setupActionBarWithNavController(navController)
-
-        supportActionBar?.setDisplayShowTitleEnabled(false)
     }
 
     override fun onSupportNavigateUp(): Boolean {
@@ -51,6 +49,10 @@ class MainActivity : AppCompatActivity() {
         return when (item.itemId) {
             R.id.choseTheme -> {
                 changeTheme()
+                true
+            }
+            R.id.logOut -> {
+                navController.navigate(R.id.action_noteListFragment_to_loginFragment)
                 true
             }
             else -> super.onOptionsItemSelected(item)

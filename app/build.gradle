@@ -5,6 +5,7 @@ plugins {
     id "kotlin-parcelize"
     id "androidx.navigation.safeargs.kotlin"
     id "dagger.hilt.android.plugin"
+    id "com.google.gms.google-services"
 }
 
 android {
@@ -59,13 +60,14 @@ dependencies {
     implementation "androidx.navigation:navigation-ui-ktx:$navVersion"
 
     //Firebase
-    implementation "com.google.firebase:firebase-auth:20.0.1"
-    implementation "com.google.firebase:firebase-database:19.6.0"
-    implementation "com.google.firebase:firebase-firestore:22.0.1"
+    implementation platform("com.google.firebase:firebase-bom:26.2.0")
+    implementation "com.google.firebase:firebase-auth-ktx"
+    implementation "com.google.firebase:firebase-database-ktx"
 
     //Room
     implementation "androidx.room:room-runtime:$roomVersion"
     implementation "androidx.room:room-ktx:$roomVersion"
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     kapt "androidx.room:room-compiler:$roomVersion"
 
     //Lifecycle
@@ -75,8 +77,8 @@ dependencies {
 
     //Hilt
     implementation "com.google.dagger:hilt-android:$hiltVersion"
-    kapt "com.google.dagger:hilt-android-compiler:$hiltVersion"
     implementation "androidx.hilt:hilt-lifecycle-viewmodel:$hiltViewModelVersion"
+    kapt "com.google.dagger:hilt-android-compiler:$hiltVersion"
     kapt "androidx.hilt:hilt-compiler:$hiltViewModelVersion"
 
     //DataStore

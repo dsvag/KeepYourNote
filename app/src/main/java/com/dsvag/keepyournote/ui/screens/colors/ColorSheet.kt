@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.GridLayoutManager
 import com.dsvag.keepyournote.R
 import com.dsvag.keepyournote.databinding.SheetColorBinding
-import com.dsvag.keepyournote.utils.recyclerviewutils.ItemDecoration
+import com.dsvag.keepyournote.utils.recyclerviewUtils.ItemDecoration
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 
 class ColorSheet : BottomSheetDialogFragment() {

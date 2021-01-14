@@ -8,24 +8,46 @@
     <fragment
         android:id="@+id/noteListFragment"
         android:name="com.dsvag.keepyournote.ui.screens.notes.NoteListFragment"
+        android:label="@string/app_name"
         tools:layout="@layout/fragment_note_list">
+
         <action
             android:id="@+id/action_noteListFragment_to_noteFragment"
             app:destination="@id/noteFragment" />
+
+        <action
+            android:id="@+id/action_noteListFragment_to_loginFragment"
+            app:destination="@id/loginFragment" />
+
     </fragment>
 
     <fragment
         android:id="@+id/noteFragment"
         android:name="com.dsvag.keepyournote.ui.screens.notes.NoteFragment"
+        android:label="Edit Your Note"
         tools:layout="@layout/fragment_note">
+
         <action
             android:id="@+id/action_noteFragment_to_colorSheet"
             app:destination="@id/colorSheet" />
+
     </fragment>
 
     <dialog
         android:id="@+id/colorSheet"
         android:name="com.dsvag.keepyournote.ui.screens.colors.ColorSheet"
         tools:layout="@layout/sheet_color" />
+
+    <fragment
+        android:id="@+id/loginFragment"
+        android:name="com.dsvag.keepyournote.ui.screens.login.LoginFragment"
+        android:label="fragment_login"
+        tools:layout="@layout/fragment_login">
+
+        <action
+            android:id="@+id/action_loginFragment_to_noteListFragment"
+            app:destination="@id/noteListFragment" />
+
+    </fragment>
 
 </navigation>

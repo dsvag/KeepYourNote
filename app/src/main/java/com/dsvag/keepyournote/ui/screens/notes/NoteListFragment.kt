@@ -14,8 +14,8 @@ import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.dsvag.keepyournote.R
 import com.dsvag.keepyournote.databinding.FragmentNoteListBinding
 import com.dsvag.keepyournote.models.Note
-import com.dsvag.keepyournote.utils.recyclerviewutils.ItemDecoration
-import com.dsvag.keepyournote.utils.recyclerviewutils.SwipeCallback
+import com.dsvag.keepyournote.utils.recyclerviewUtils.ItemDecoration
+import com.dsvag.keepyournote.utils.recyclerviewUtils.SwipeCallback
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -60,7 +60,7 @@ class NoteListFragment : Fragment() {
         val itemTouchHelper = ItemTouchHelper(
             SwipeCallback(
                 ::deleteNote,
-                ContextCompat.getDrawable(requireContext(), R.drawable.ic_baseline_delete)!!,
+                ContextCompat.getDrawable(requireContext(), R.drawable.ic_delete)!!,
                 requireContext().getColor(R.color.error_red),
             )
         )
