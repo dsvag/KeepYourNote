@@ -4,7 +4,9 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -40,14 +42,14 @@ class NoteListFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         initRecyclerview()
 
+        (activity as AppCompatActivity?)?.supportActionBar?.show()
+
         binding.newButton.setOnClickListener {
             findNavController().navigate(R.id.action_noteListFragment_to_noteFragment)
         }
 
-        noteViewModel.getNotes.observe(viewLifecycleOwner) { newNoteList ->
-            newNoteList.let {
-                noteAdapter.setData(newNoteList)
-            }
+        noteViewModel.notes.observe(viewLifecycleOwner) { newNoteList: List<Note>? ->
+            newNoteList?.let { noteAdapter.setData(newNoteList) }
         }
     }
 
@@ -75,11 +77,8 @@ class NoteListFragment : Fragment() {
         binding.recyclerview.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 super.onScrolled(recyclerView, dx, dy)
-                if (dy > 0) {
-                    binding.newButton.hide()
-                } else if (dy < 0) {
-                    binding.newButton.show()
-                }
+
+                binding.newButton.isVisible = dy >= 0
             }
         })
     }

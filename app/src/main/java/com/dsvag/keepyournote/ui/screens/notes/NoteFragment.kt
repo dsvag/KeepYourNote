@@ -35,10 +35,10 @@ class NoteFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        if (note != null) {
-            binding.title.setText(note!!.title)
-            binding.description.setText(note!!.description)
-        }
+        note = arguments?.getParcelable("note") ?: Note(title = "", description = "")
+
+        binding.title.setText(note?.title)
+        binding.description.setText(note?.description)
 
         binding.description.requestFocus()
 
@@ -54,8 +54,6 @@ class NoteFragment : Fragment() {
     override fun onStart() {
         super.onStart()
         this.noteViewModel.showKeyBoard(binding.description)
-
-        note = arguments?.getParcelable("note") ?: Note(title = "", description = "")
     }
 
     override fun onPause() {
@@ -86,7 +84,7 @@ class NoteFragment : Fragment() {
                 if (note != null) {
                     shareNote()
                 } else {
-                    Toast.makeText(requireContext(), "Note empty", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(requireContext(), "Note is empty", Toast.LENGTH_SHORT).show()
                 }
                 true
             }

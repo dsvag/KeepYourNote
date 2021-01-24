@@ -16,7 +16,7 @@ class NoteViewModel @ViewModelInject constructor(
     private val keyBoardUtils: KeyBoardUtils,
 ) : ViewModel() {
 
-    val getNotes = noteRepository.getNotes().asLiveData()
+    val notes = noteRepository.getNotes().asLiveData()
 
     fun insertNote(note: Note) {
         viewModelScope.launch(Dispatchers.IO) {

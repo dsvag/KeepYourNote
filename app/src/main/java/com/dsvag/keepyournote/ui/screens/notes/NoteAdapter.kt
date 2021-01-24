@@ -3,8 +3,8 @@ package com.dsvag.keepyournote.ui.screens.notes
 import android.graphics.drawable.GradientDrawable
 import android.os.Bundle
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
@@ -43,22 +43,20 @@ class NoteAdapter : RecyclerView.Adapter<NoteAdapter.NoteViewHolder>() {
         RecyclerView.ViewHolder(itemBinding.root) {
 
         fun bind(note: Note) {
-            if (note.title.isEmpty()) itemBinding.title.visibility = View.GONE
-            if (note.description.isEmpty()) itemBinding.description.visibility = View.GONE
+            itemBinding.title.isVisible = note.title.isNotEmpty()
+            itemBinding.description.isVisible = note.description.isNotEmpty()
 
             itemBinding.title.text = note.title
             itemBinding.description.text = note.description
 
             val background = itemBinding.root.background!! as GradientDrawable
             val noteStrokeWidth =
-                itemBinding.root.context.resources.getDimension(R.dimen.noteStrokeWidth).toInt()
+                itemBinding.root.resources.getDimension(R.dimen.noteStrokeWidth).toInt()
 
             background.setStroke(noteStrokeWidth, note.color)
 
             itemBinding.root.setOnClickListener {
-                val bundle = Bundle().apply {
-                    putParcelable("note", note)
-                }
+                val bundle = Bundle().apply { putParcelable("note", note) }
 
                 itemBinding.root.findNavController()
                     .navigate(R.id.action_noteListFragment_to_noteFragment, bundle)

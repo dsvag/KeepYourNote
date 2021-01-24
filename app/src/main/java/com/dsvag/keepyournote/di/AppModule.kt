@@ -1,4 +1,4 @@
-package com.dsvag.keepyournote.data.di
+package com.dsvag.keepyournote.di
 
 import android.content.Context
 import android.view.inputmethod.InputMethodManager
@@ -33,7 +33,6 @@ object AppModule {
     fun provideKeyBoardUtils(@ApplicationContext appContext: Context) =
         KeyBoardUtils(getSystemService(appContext, InputMethodManager::class.java)!!)
 
-
     @Singleton
     @Provides
     fun provideDatabase(@ApplicationContext appContext: Context): NoteDatabase {
@@ -44,7 +43,6 @@ object AppModule {
     @Singleton
     @Provides
     fun provideNoteDao(database: NoteDatabase) = database.noteDao()
-
 
     @Singleton
     @Provides
