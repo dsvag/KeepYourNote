@@ -34,6 +34,6 @@ class LoginFragment : Fragment() {
     override fun onStart() {
         super.onStart()
 
-        activity?.onBackPressedDispatcher?.addCallback { }
+        activity?.onBackPressedDispatcher?.addCallback { activity?.finish() }
     }
 }
