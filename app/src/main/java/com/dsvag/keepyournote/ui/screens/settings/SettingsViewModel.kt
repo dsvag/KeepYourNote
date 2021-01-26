@@ -5,7 +5,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
 import com.dsvag.keepyournote.data.repository.SettingsRepository
-import com.dsvag.keepyournote.utils.ThemeType
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
@@ -19,5 +18,10 @@ class SettingsViewModel @ViewModelInject constructor(
         viewModelScope.launch(Dispatchers.IO) {
             settingsRepository.setTheme(themeType.type)
         }
+    }
+
+
+    enum class ThemeType(val type: Int) {
+        FollowSystem(0), Light(1), Dark(2),
     }
 }

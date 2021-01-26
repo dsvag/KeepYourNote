@@ -16,7 +16,6 @@ import androidx.navigation.ui.setupActionBarWithNavController
 import com.dsvag.keepyournote.R
 import com.dsvag.keepyournote.databinding.ActivityMainBinding
 import com.dsvag.keepyournote.ui.screens.settings.SettingsViewModel
-import com.dsvag.keepyournote.utils.ThemeType
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import dagger.hilt.android.AndroidEntryPoint
@@ -46,13 +45,13 @@ class MainActivity : AppCompatActivity() {
 
         settingsViewModel.theme.observe(this) { themeType ->
             when (themeType) {
-                ThemeType.FollowSystem.type -> {
+                SettingsViewModel.ThemeType.FollowSystem.type -> {
                     AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
                 }
-                ThemeType.Light.type -> {
+                SettingsViewModel.ThemeType.Light.type -> {
                     AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
                 }
-                ThemeType.Dark.type -> {
+                SettingsViewModel.ThemeType.Dark.type -> {
                     AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
                 }
             }
@@ -90,9 +89,9 @@ class MainActivity : AppCompatActivity() {
 
         popupMenu.setOnMenuItemClickListener { item ->
             when (item.itemId) {
-                R.id.themeSystem -> settingsViewModel.setTheme(ThemeType.FollowSystem)
-                R.id.themeLight -> settingsViewModel.setTheme(ThemeType.Light)
-                R.id.themeDark -> settingsViewModel.setTheme(ThemeType.Dark)
+                R.id.themeSystem -> settingsViewModel.setTheme(SettingsViewModel.ThemeType.FollowSystem)
+                R.id.themeLight -> settingsViewModel.setTheme(SettingsViewModel.ThemeType.Light)
+                R.id.themeDark -> settingsViewModel.setTheme(SettingsViewModel.ThemeType.Dark)
             }
             true
         }
