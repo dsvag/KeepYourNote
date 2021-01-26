@@ -15,6 +15,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.setupActionBarWithNavController
 import com.dsvag.keepyournote.R
 import com.dsvag.keepyournote.databinding.ActivityMainBinding
+import com.dsvag.keepyournote.ui.screens.settings.SettingsViewModel
 import com.dsvag.keepyournote.utils.ThemeType
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase

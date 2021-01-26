@@ -1,4 +1,4 @@
-package com.dsvag.keepyournote.ui
+package com.dsvag.keepyournote.ui.screens.settings
 
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.ViewModel

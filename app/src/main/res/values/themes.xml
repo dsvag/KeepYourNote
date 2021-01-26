@@ -22,6 +22,8 @@
 
         <item name="selectableItemBackground">@color/not_white</item>
 
+        <item name="android:windowBackground">?attr/background</item>
+
         <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimary</item>
         <item name="android:navigationBarColor">?attr/colorPrimary</item>
         <item name="android:windowAnimationStyle">@style/WindowAnimationTransition</item>
@@ -59,10 +61,15 @@
         <item name="shapeAppearance">@style/ShapeAppearance.App.MediumComponent</item>
         <item name="hintTextColor">?attr/colorOnBackground</item>
         <item name="hintTextAppearance">@style/Theme.TextInputLayout.Text</item>
+        <item name="counterOverflowTextColor">@color/error_red</item>
+        <item name="counterTextColor">@color/success_green</item>
+        <item name="helperTextTextColor">@color/success_green</item>
+        <item name="endIconTint">?attr/colorOnBackground</item>
     </style>
 
     <style name="Theme.TextInputLayout.Text" parent="Theme.MaterialComponents">
         <item name="android:textSize">16sp</item>
         <item name="android:textColor">?attr/colorOnBackground</item>
     </style>
+
 </resources>

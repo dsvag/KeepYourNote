@@ -29,25 +29,28 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
         (activity as AppCompatActivity?)?.supportActionBar?.hide()
 
         loginViewModel.state.observe(this.viewLifecycleOwner, this::stateObserver)
-
-        binding.loginButton.setOnClickListener {
-            if (loginViewModel.checkEmail(binding.login.editText?.text.toString())) {
-                loginViewModel.auth(
-                    binding.login.editText?.text.toString(),
-                    binding.password.editText?.text.toString()
-                )
-            }
-        }
+        loginViewModel.emailState.observe(this.viewLifecycleOwner, this::emailObserver)
+        loginViewModel.passwordState.observe(this.viewLifecycleOwner, this::passwordObserver)
 
         binding.login.editText?.addTextChangedListener { text: Editable? ->
             loginViewModel.checkEmail(text.toString())
+            loginViewModel.checkPassword(binding.password.editText?.text.toString())
+        }
+
+        binding.password.editText?.addTextChangedListener { text: Editable? ->
+            loginViewModel.checkPassword(text.toString())
+            loginViewModel.checkEmail(binding.login.editText?.text.toString())
+        }
+
+        binding.createAccount.setOnClickListener {
+            loginViewModel.registration()
         }
     }
 
     override fun onStart() {
         super.onStart()
 
-        activity?.onBackPressedDispatcher?.addCallback { activity?.finish() }
+        activity?.onBackPressedDispatcher?.addCallback { loginViewModel.login() }
 
         loginViewModel.initAuth(Firebase.auth)
 
@@ -58,23 +61,67 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
         binding.login.requestFocus()
     }
 
-    private fun stateObserver(state: LoginViewModel.LoginState) {
+    private fun stateObserver(state: LoginViewModel.State) {
         when (state) {
-            LoginViewModel.LoginState.Default -> onDefault()
-            LoginViewModel.LoginState.Loading -> onLoading()
-            LoginViewModel.LoginState.Success -> onSuccess()
-            LoginViewModel.LoginState.LoginError -> onLoginError()
-            LoginViewModel.LoginState.Error -> onError()
+            LoginViewModel.State.Login -> onLogin()
+            LoginViewModel.State.Registration -> onRegistration()
+
+            LoginViewModel.State.Loading -> onLoading()
+
+            LoginViewModel.State.Success -> onSuccess()
+            is LoginViewModel.State.Error -> onError(state.msg)
         }
     }
 
-    private fun onDefault() {
-        binding.login.isErrorEnabled = false
+    private fun emailObserver(state: LoginViewModel.InputState) {
+        when (state) {
+            LoginViewModel.InputState.Success -> onLoginSuccess()
+            LoginViewModel.InputState.Error -> onLoginError()
+            LoginViewModel.InputState.Default -> onLoginEmpty()
+        }
+    }
+
+    private fun passwordObserver(state: LoginViewModel.InputState) {
+        when (state) {
+            LoginViewModel.InputState.Success -> onPasswordSuccess()
+            LoginViewModel.InputState.Error -> onPasswordError()
+            LoginViewModel.InputState.Default -> onPasswordEmpty()
+        }
+    }
+
+    private fun onLogin() {
+        binding.createAccount.isVisible = true
         binding.loadingIndicator.isVisible = false
+
+        binding.loginButton.setOnClickListener {
+            if (loginViewModel.checkEmail(binding.login.editText?.text.toString())) {
+                loginViewModel.login(
+                    binding.login.editText?.text.toString(),
+                    binding.password.editText?.text.toString()
+                )
+            }
+        }
+
+        binding.loginButton.text = "Login"
+    }
+
+    private fun onRegistration() {
+        binding.createAccount.isVisible = false
+        binding.loadingIndicator.isVisible = false
+
+        binding.loginButton.setOnClickListener {
+            if (loginViewModel.checkEmail(binding.login.editText?.text.toString())) {
+                loginViewModel.registration(
+                    binding.login.editText?.text.toString(),
+                    binding.password.editText?.text.toString()
+                )
+            }
+        }
+
+        binding.loginButton.text = "Create account"
     }
 
     private fun onLoading() {
-        binding.login.isErrorEnabled = false
         binding.loadingIndicator.isVisible = true
     }
 
@@ -83,14 +130,59 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
         binding.loadingIndicator.isVisible = false
     }
 
-    private fun onError() {
-        Toast.makeText(requireContext(), "Authentication failed.", Toast.LENGTH_SHORT).show()
+    private fun onError(msg: String) {
+        Toast.makeText(requireContext(), msg, Toast.LENGTH_SHORT).show()
         binding.loadingIndicator.isVisible = false
+    }
+
+    private fun onLoginSuccess() {
+        binding.login.isErrorEnabled = false
+        binding.login.isHelperTextEnabled = true
+        binding.login.helperText = "Login correct"
+
+        binding.loginButton.isEnabled = true
     }
 
     private fun onLoginError() {
         binding.login.isErrorEnabled = true
+        binding.login.isHelperTextEnabled = false
         binding.login.error = "Invalid email"
-        binding.loadingIndicator.isVisible = false
+
+        binding.loginButton.isEnabled = false
+    }
+
+    private fun onLoginEmpty() {
+        binding.login.isErrorEnabled = false
+        binding.login.isHelperTextEnabled = false
+
+        binding.loginButton.isEnabled = false
+    }
+
+    private fun onPasswordSuccess() {
+        binding.password.isErrorEnabled = false
+        binding.password.isCounterEnabled = true
+        binding.password.isHelperTextEnabled = true
+        binding.password.helperText = "Password correct"
+
+        binding.loginButton.isEnabled = true
+    }
+
+    private fun onPasswordError() {
+        binding.password.isErrorEnabled = true
+        binding.password.isCounterEnabled = true
+        binding.password.isHelperTextEnabled = false
+        binding.password.error = "6 to 32 characters, one number,\n" +
+                "at least one uppercase and one lowercase English letter,\n" +
+                "one special character #?!@$%^&*+="
+
+        binding.loginButton.isEnabled = false
+    }
+
+    private fun onPasswordEmpty() {
+        binding.password.isErrorEnabled = false
+        binding.password.isCounterEnabled = false
+        binding.password.isHelperTextEnabled = false
+
+        binding.loginButton.isEnabled = false
     }
 }

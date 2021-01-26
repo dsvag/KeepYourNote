@@ -4,7 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="?attr/background"
     android:fitsSystemWindows="true"
     tools:context=".ui.screens.login.LoginFragment">
 
@@ -28,6 +27,7 @@
         android:layout_marginBottom="32dp"
         android:hint="Login"
         android:paddingHorizontal="8dp"
+        app:counterEnabled="false"
         app:layout_constraintBottom_toTopOf="@+id/password"
         app:layout_constraintEnd_toEndOf="@+id/password"
         app:layout_constraintStart_toStartOf="@+id/password">
@@ -49,6 +49,9 @@
         android:layout_height="wrap_content"
         android:hint="Password"
         android:paddingHorizontal="8dp"
+        app:counterEnabled="false"
+        app:counterMaxLength="32"
+        app:helperText="Minimum six characters, at least one upper case English letter, one lower case English letter, one number and one special character"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -59,7 +62,6 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:inputType="textPassword"
-            android:maxLength="32"
             android:textColor="?attr/colorOnBackground"
             android:textColorHint="?attr/colorOnBackground"
             android:textSize="18sp" />
@@ -75,11 +77,11 @@
         android:textAllCaps="false"
         android:textSize="30sp"
         app:layout_constraintBottom_toTopOf="@+id/createAccount"
-        app:layout_constraintDimensionRatio="3:1"
+        app:layout_constraintDimensionRatio="H,3:1"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/password"
-        app:layout_constraintWidth_percent="0.5"
+        app:layout_constraintWidth_percent="0.6"
         app:shapeAppearance="@style/ShapeAppearance.App.LargeComponent" />
 
     <com.google.android.material.textview.MaterialTextView

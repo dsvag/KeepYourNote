@@ -8,8 +8,14 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 
 class LoginViewModel @ViewModelInject constructor() : ViewModel() {
-    private val _mutableState = MutableLiveData<LoginState>(LoginState.Default)
+    private val _mutableState = MutableLiveData<State>(State.Login)
     val state get() = _mutableState
+
+    private val _mutableEmailState = MutableLiveData<InputState>(InputState.Default)
+    val emailState get() = _mutableEmailState
+
+    private val _mutablePasswordState = MutableLiveData<InputState>(InputState.Default)
+    val passwordState get() = _mutablePasswordState
 
     private lateinit var auth: FirebaseAuth
 
@@ -19,39 +25,86 @@ class LoginViewModel @ViewModelInject constructor() : ViewModel() {
 
     fun getCurrentUser(): FirebaseUser? = auth.currentUser
 
-    fun auth(email: String?, password: String?) {
-        if (!email.isNullOrEmpty() && !password.isNullOrEmpty()) {
-            _mutableState.value = LoginState.Loading
+    fun login() {
+        _mutableState.value = State.Login
+    }
 
-            auth.signInWithEmailAndPassword(email, password).addOnCompleteListener { task ->
+    fun login(email: String?, password: String?) {
+        if (emailState.value == InputState.Success && passwordState.value == InputState.Success) {
+            _mutableState.value = State.Loading
+
+            auth.signInWithEmailAndPassword(email!!, password!!).addOnCompleteListener { task ->
                 if (task.isSuccessful) {
-                    _mutableState.value = LoginState.Success
+                    _mutableState.value = State.Success
                 } else {
-                    _mutableState.value = LoginState.Error
+                    _mutableState.value = State.Error(task.exception?.message.toString())
                 }
             }
         } else {
-            _mutableState.value = LoginState.Error
+            _mutableState.value = State.Error("Authentication failed")
+        }
+    }
+
+    fun registration() {
+        _mutableState.value = State.Registration
+    }
+
+    fun registration(email: String?, password: String?) {
+        if (emailState.value == InputState.Success && passwordState.value == InputState.Success) {
+            _mutableState.value = State.Loading
+
+            auth.createUserWithEmailAndPassword(email!!, password!!).addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    _mutableState.value = State.Success
+                } else {
+                    _mutableState.value = State.Error(task.exception?.message.toString())
+                }
+            }
+        } else {
+            _mutableState.value = State.Error("Registration failed")
         }
     }
 
     fun checkEmail(email: String?): Boolean {
-        val isCorrect = !email.isNullOrEmpty() && Patterns.EMAIL_ADDRESS.matcher(email).matches()
+        val isCorrect =
+            !email.isNullOrEmpty() && Patterns.EMAIL_ADDRESS.matcher(email).matches()
 
         when {
-            isCorrect -> _mutableState.value = LoginState.Default
-            email.isNullOrEmpty() -> _mutableState.value = LoginState.Default
-            else -> _mutableState.value = LoginState.LoginError
+            isCorrect -> _mutableEmailState.value = InputState.Success
+            email.isNullOrEmpty() -> _mutableEmailState.value = InputState.Default
+            else -> _mutableEmailState.value = InputState.Error
         }
 
         return isCorrect
     }
 
-    sealed class LoginState {
-        object Default : LoginState()
-        object Loading : LoginState()
-        object Success : LoginState()
-        object LoginError : LoginState()
-        object Error : LoginState()
+    fun checkPassword(password: String?): Boolean {
+        val regex = Regex("^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$ %^&*+=]).{6,32}\$")
+
+        val isCorrect = !password.isNullOrEmpty() && regex.containsMatchIn(password)
+
+        when {
+            isCorrect -> _mutablePasswordState.value = InputState.Success
+            password.isNullOrEmpty() -> _mutablePasswordState.value = InputState.Default
+            else -> _mutablePasswordState.value = InputState.Error
+        }
+
+        return isCorrect
+    }
+
+    sealed class State {
+        object Login : State()
+        object Registration : State()
+
+        object Loading : State()
+
+        object Success : State()
+        class Error(val msg: String) : State()
+    }
+
+    sealed class InputState {
+        object Success : InputState()
+        object Error : InputState()
+        object Default : InputState()
     }
 }
