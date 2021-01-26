@@ -8,11 +8,11 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
-class ThemeRepository @Inject constructor(private val dataStore: DataStore<Preferences>) {
+class SettingsRepository @Inject constructor(private val dataStore: DataStore<Preferences>) {
 
-    suspend fun getTheme(): Flow<Int> {
+    fun getTheme(): Flow<Int> {
         return dataStore.data.map { preferences ->
-            preferences[themeKey] ?: 2
+            preferences[themeKey] ?: 0
         }
     }
 

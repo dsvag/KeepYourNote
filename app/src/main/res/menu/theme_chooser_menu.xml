@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/themeSystem"
+        android:title="Follow system"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/themeLight"
+        android:title="Light"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/themeDark"
+        android:title="Dark"
+        app:showAsAction="never" />
+
+</menu>

@@ -10,7 +10,7 @@ import androidx.room.Room
 import com.dsvag.keepyournote.data.database.note.NoteDao
 import com.dsvag.keepyournote.data.database.note.NoteDatabase
 import com.dsvag.keepyournote.data.repository.NoteRepository
-import com.dsvag.keepyournote.data.repository.ThemeRepository
+import com.dsvag.keepyournote.data.repository.SettingsRepository
 import com.dsvag.keepyournote.utils.KeyBoardUtils
 import dagger.Module
 import dagger.Provides
@@ -50,5 +50,5 @@ object AppModule {
 
     @Singleton
     @Provides
-    fun provideThemeRepository(dataStore: DataStore<Preferences>) = ThemeRepository(dataStore)
+    fun provideThemeRepository(dataStore: DataStore<Preferences>) = SettingsRepository(dataStore)
 }
