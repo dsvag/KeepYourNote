@@ -2,7 +2,10 @@ package com.dsvag.keepyournote.ui.screens.notes
 
 import android.content.Intent
 import android.os.Bundle
-import android.view.*
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
+import android.view.View
 import android.widget.Toast
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
@@ -12,29 +15,21 @@ import com.dsvag.keepyournote.R
 import com.dsvag.keepyournote.databinding.FragmentNoteBinding
 import com.dsvag.keepyournote.models.Note
 import com.dsvag.keepyournote.ui.screens.colors.ColorSheet
+import com.dsvag.keepyournote.ui.viewBinding
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class NoteFragment : Fragment() {
+class NoteFragment : Fragment(R.layout.fragment_note) {
 
-    private var _binding: FragmentNoteBinding? = null
-    private val binding get() = _binding!!
+    private val binding by viewBinding(FragmentNoteBinding::bind)
 
     private val noteViewModel by viewModels<NoteViewModel>()
 
     private var note: Note? = null
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
-    ): View {
-        _binding = FragmentNoteBinding.inflate(inflater, container, false)
-
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         setHasOptionsMenu(true)
 
-        return binding.root
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         note = arguments?.getParcelable("note") ?: Note(title = "", description = "")
 
         binding.title.setText(note?.title)
@@ -61,11 +56,6 @@ class NoteFragment : Fragment() {
         if (note != null && (note!!.title.isNotEmpty() || note!!.description.isNotEmpty())) {
             this.noteViewModel.insertNote(note!!)
         }
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {

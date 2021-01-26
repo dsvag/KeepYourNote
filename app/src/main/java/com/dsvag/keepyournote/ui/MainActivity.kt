@@ -12,6 +12,8 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.setupActionBarWithNavController
 import com.dsvag.keepyournote.R
 import com.dsvag.keepyournote.databinding.ActivityMainBinding
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -52,6 +54,7 @@ class MainActivity : AppCompatActivity() {
                 true
             }
             R.id.logOut -> {
+                Firebase.auth.signOut()
                 navController.navigate(R.id.action_noteListFragment_to_loginFragment)
                 true
             }

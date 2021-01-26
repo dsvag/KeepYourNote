@@ -1,9 +1,7 @@
 package com.dsvag.keepyournote.ui.screens.notes
 
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
@@ -16,28 +14,25 @@ import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.dsvag.keepyournote.R
 import com.dsvag.keepyournote.databinding.FragmentNoteListBinding
 import com.dsvag.keepyournote.models.Note
+import com.dsvag.keepyournote.ui.screens.login.LoginViewModel
+import com.dsvag.keepyournote.ui.viewBinding
 import com.dsvag.keepyournote.utils.recyclerviewUtils.ItemDecoration
 import com.dsvag.keepyournote.utils.recyclerviewUtils.SwipeCallback
 import com.google.android.material.snackbar.Snackbar
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class NoteListFragment : Fragment() {
+class NoteListFragment : Fragment(R.layout.fragment_note_list) {
 
-    private var _binding: FragmentNoteListBinding? = null
-    private val binding get() = _binding!!
+    private val binding by viewBinding(FragmentNoteListBinding::bind)
 
     private val noteViewModel by viewModels<NoteViewModel>()
 
+    private val loginViewModel by viewModels<LoginViewModel>()
+
     private val noteAdapter by lazy { NoteAdapter() }
-
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
-    ): View {
-        _binding = FragmentNoteListBinding.inflate(inflater, container, false)
-
-        return binding.root
-    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         initRecyclerview()
@@ -53,10 +48,16 @@ class NoteListFragment : Fragment() {
         }
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
+    override fun onStart() {
+        super.onStart()
+
+        loginViewModel.initAuth(Firebase.auth)
+
+        if (loginViewModel.getCurrentUser() == null) {
+            findNavController().navigate(R.id.action_noteListFragment_to_loginFragment)
+        }
     }
+
 
     private fun initRecyclerview() {
         val itemTouchHelper = ItemTouchHelper(

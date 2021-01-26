@@ -8,6 +8,7 @@ import androidx.lifecycle.viewModelScope
 import com.dsvag.keepyournote.data.repository.NoteRepository
 import com.dsvag.keepyournote.models.Note
 import com.dsvag.keepyournote.utils.KeyBoardUtils
+import com.google.firebase.auth.FirebaseAuth
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 

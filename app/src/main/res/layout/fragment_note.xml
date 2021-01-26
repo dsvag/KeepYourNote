@@ -5,12 +5,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="?attr/background"
+    android:fitsSystemWindows="true"
     android:padding="16dp"
     tools:context=".ui.screens.notes.NoteFragment">
 
     <androidx.appcompat.widget.AppCompatEditText
         android:id="@+id/title"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:background="@color/transparent"
         android:gravity="center_vertical"
@@ -24,27 +25,21 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <ScrollView
-        android:id="@+id/descriptionScroll"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+    <com.google.android.material.textfield.TextInputEditText
+        android:id="@+id/description"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         android:layout_marginTop="8dp"
+        android:background="@color/transparent"
+        android:gravity="start"
+        android:hint="Note"
+        android:inputType="textMultiLine|textCapSentences"
+        android:textColor="?attr/colorOnBackground"
+        android:textColorHint="?attr/hintTextColor"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/title">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/description"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/transparent"
-            android:gravity="start"
-            android:hint="Note"
-            android:inputType="textMultiLine|textCapSentences"
-            android:textColor="?attr/colorOnBackground"
-            android:textColorHint="?attr/hintTextColor"
-            android:textSize="18sp" />
-
-    </ScrollView>
+        app:layout_constraintTop_toBottomOf="@+id/title" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
