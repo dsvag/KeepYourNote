@@ -57,6 +57,8 @@
     <style name="Theme.TextInputLayout" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
         <item name="boxStrokeErrorColor">@color/error_red</item>
         <item name="boxStrokeColor">?attr/colorPrimaryVariant</item>
+        <item name="boxStrokeWidthFocused">@dimen/noteStrokeWidth</item>
+        <item name="boxStrokeWidth">1dp</item>
         <item name="errorIconDrawable">@drawable/ic_alert_error</item>
         <item name="shapeAppearance">@style/ShapeAppearance.App.MediumComponent</item>
         <item name="hintTextColor">?attr/colorOnBackground</item>
@@ -68,7 +70,7 @@
     </style>
 
     <style name="Theme.TextInputLayout.Text" parent="Theme.MaterialComponents">
-        <item name="android:textSize">16sp</item>
+        <item name="android:textSize">18sp</item>
         <item name="android:textColor">?attr/colorOnBackground</item>
     </style>
 

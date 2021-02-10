@@ -1,13 +1,16 @@
-package com.dsvag.keepyournote.ui.screens.login
+package com.dsvag.keepyournote.ui.login
 
 import android.util.Patterns
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.dsvag.keepyournote.data.repository.FirebaseRepository
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 
-class LoginViewModel @ViewModelInject constructor() : ViewModel() {
+class LoginViewModel @ViewModelInject constructor(
+    private val firebaseRepository: FirebaseRepository,
+) : ViewModel() {
     private val _mutableState = MutableLiveData<State>(State.Login)
     val state get() = _mutableState
 
@@ -17,13 +20,11 @@ class LoginViewModel @ViewModelInject constructor() : ViewModel() {
     private val _mutablePasswordState = MutableLiveData<InputState>(InputState.Default)
     val passwordState get() = _mutablePasswordState
 
-    private lateinit var auth: FirebaseAuth
-
     fun initAuth(auth: FirebaseAuth) {
-        this.auth = auth
+        firebaseRepository.auth(auth)
     }
 
-    fun getCurrentUser(): FirebaseUser? = auth.currentUser
+    val getCurrentUser: FirebaseUser? get() = firebaseRepository.user
 
     fun login() {
         _mutableState.value = State.Login
@@ -33,7 +34,7 @@ class LoginViewModel @ViewModelInject constructor() : ViewModel() {
         if (emailState.value == InputState.Success && passwordState.value == InputState.Success) {
             _mutableState.value = State.Loading
 
-            auth.signInWithEmailAndPassword(email!!, password!!).addOnCompleteListener { task ->
+            firebaseRepository.login(email!!, password!!).addOnCompleteListener { task ->
                 if (task.isSuccessful) {
                     _mutableState.value = State.Success
                 } else {
@@ -53,7 +54,7 @@ class LoginViewModel @ViewModelInject constructor() : ViewModel() {
         if (emailState.value == InputState.Success && passwordState.value == InputState.Success) {
             _mutableState.value = State.Loading
 
-            auth.createUserWithEmailAndPassword(email!!, password!!).addOnCompleteListener { task ->
+            firebaseRepository.registration(email!!, password!!).addOnCompleteListener { task ->
                 if (task.isSuccessful) {
                     _mutableState.value = State.Success
                 } else {

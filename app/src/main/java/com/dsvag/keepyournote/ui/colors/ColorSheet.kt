@@ -1,4 +1,4 @@
-package com.dsvag.keepyournote.ui.screens.colors
+package com.dsvag.keepyournote.ui.colors
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.GridLayoutManager
 import com.dsvag.keepyournote.R
 import com.dsvag.keepyournote.databinding.SheetColorBinding
-import com.dsvag.keepyournote.utils.recyclerviewUtils.ItemDecoration
+import com.dsvag.keepyournote.utils.recyclerview.ItemDecoration
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 
 class ColorSheet : BottomSheetDialogFragment() {
@@ -29,7 +29,7 @@ class ColorSheet : BottomSheetDialogFragment() {
         binding.colors.layoutManager = GridLayoutManager(requireContext(), 6)
         binding.colors.setHasFixedSize(true)
         binding.colors.adapter = adapter
-        binding.colors.addItemDecoration(ItemDecoration(24))
+        binding.colors.addItemDecoration(ItemDecoration(24f))
 
         adapter.setData(this, getColors())
     }

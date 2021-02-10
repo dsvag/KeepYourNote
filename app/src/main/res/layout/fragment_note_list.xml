@@ -4,8 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fitsSystemWindows="false"
-    tools:context=".ui.screens.notes.NoteListFragment">
+    tools:context=".ui.notes.NoteListFragment">
 
     <com.google.android.material.progressindicator.LinearProgressIndicator
         android:id="@+id/loadingIndicator"
@@ -27,10 +26,12 @@
         android:clipToPadding="false"
         android:overScrollMode="never"
         android:padding="4dp"
+        app:layoutManager="androidx.recyclerview.widget.StaggeredGridLayoutManager"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/loadingIndicator" />
+        app:layout_constraintTop_toBottomOf="@id/loadingIndicator"
+        app:spanCount="2" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/newButton"

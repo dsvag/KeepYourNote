@@ -1,4 +1,4 @@
-package com.dsvag.keepyournote.ui.screens.colors
+package com.dsvag.keepyournote.ui.colors
 
 import android.content.res.ColorStateList
 import android.view.LayoutInflater

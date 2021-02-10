@@ -1,6 +1,7 @@
-package com.dsvag.keepyournote.ui.screens.notes
+package com.dsvag.keepyournote.ui.notes
 
 import android.os.Bundle
+import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
@@ -10,17 +11,13 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
-import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.dsvag.keepyournote.R
 import com.dsvag.keepyournote.databinding.FragmentNoteListBinding
 import com.dsvag.keepyournote.models.Note
-import com.dsvag.keepyournote.ui.screens.login.LoginViewModel
 import com.dsvag.keepyournote.ui.viewBinding
-import com.dsvag.keepyournote.utils.recyclerviewUtils.ItemDecoration
-import com.dsvag.keepyournote.utils.recyclerviewUtils.SwipeCallback
+import com.dsvag.keepyournote.utils.recyclerview.ItemDecoration
+import com.dsvag.keepyournote.utils.recyclerview.SwipeCallback
 import com.google.android.material.snackbar.Snackbar
-import com.google.firebase.auth.ktx.auth
-import com.google.firebase.ktx.Firebase
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -30,11 +27,10 @@ class NoteListFragment : Fragment(R.layout.fragment_note_list) {
 
     private val noteViewModel by viewModels<NoteViewModel>()
 
-    private val loginViewModel by viewModels<LoginViewModel>()
-
     private val noteAdapter by lazy { NoteAdapter() }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        setHasOptionsMenu(true)
         initRecyclerview()
 
         (activity as AppCompatActivity?)?.supportActionBar?.show()
@@ -48,16 +44,21 @@ class NoteListFragment : Fragment(R.layout.fragment_note_list) {
         }
     }
 
-    override fun onStart() {
-        super.onStart()
-
-        loginViewModel.initAuth(Firebase.auth)
-
-        if (loginViewModel.getCurrentUser() == null) {
-            findNavController().navigate(R.id.action_noteListFragment_to_loginFragment)
-        }
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        noteViewModel.initDatabase()
     }
 
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.logOut -> {
+                noteViewModel.singOut()
+                findNavController().navigate(R.id.action_noteListFragment_to_loginFragment)
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
+    }
 
     private fun initRecyclerview() {
         val itemTouchHelper = ItemTouchHelper(
@@ -69,8 +70,7 @@ class NoteListFragment : Fragment(R.layout.fragment_note_list) {
         )
 
         binding.recyclerview.setHasFixedSize(true)
-        binding.recyclerview.layoutManager = StaggeredGridLayoutManager(2, 1)
-        binding.recyclerview.addItemDecoration(ItemDecoration(8))
+        binding.recyclerview.addItemDecoration(ItemDecoration(32f))
         binding.recyclerview.adapter = noteAdapter
 
         itemTouchHelper.attachToRecyclerView(binding.recyclerview)

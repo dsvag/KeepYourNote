@@ -14,4 +14,8 @@ class NoteRepository @Inject constructor(private val noteDao: NoteDao) {
     suspend fun deleteNote(note: Note) {
         noteDao.deleteNote(note)
     }
+
+    suspend fun clear() {
+        noteDao.clear()
+    }
 }

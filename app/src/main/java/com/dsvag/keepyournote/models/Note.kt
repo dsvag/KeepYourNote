@@ -13,7 +13,7 @@ data class Note(
 
     val title: String = "",
 
-    val description: String,
+    val description: String = "",
 
     val color: Int = 0,
 ) : Parcelable

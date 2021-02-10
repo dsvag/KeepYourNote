@@ -7,8 +7,8 @@ import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.createDataStore
 import androidx.room.Room
-import com.dsvag.keepyournote.data.database.note.NoteDao
 import com.dsvag.keepyournote.data.database.note.NoteDatabase
+import com.dsvag.keepyournote.data.repository.FirebaseRepository
 import com.dsvag.keepyournote.data.repository.NoteRepository
 import com.dsvag.keepyournote.data.repository.SettingsRepository
 import com.dsvag.keepyournote.utils.KeyBoardUtils
@@ -40,15 +40,16 @@ object AppModule {
             .build()
     }
 
-    @Singleton
-    @Provides
-    fun provideNoteDao(database: NoteDatabase) = database.noteDao()
 
     @Singleton
     @Provides
-    fun provideNoteRepository(noteDao: NoteDao) = NoteRepository(noteDao)
+    fun provideNoteRepository(database: NoteDatabase) = NoteRepository(database.noteDao())
 
     @Singleton
     @Provides
     fun provideThemeRepository(dataStore: DataStore<Preferences>) = SettingsRepository(dataStore)
+
+    @Singleton
+    @Provides
+    fun provideFirebaseRepository(database: NoteDatabase) = FirebaseRepository(database.noteDao())
 }

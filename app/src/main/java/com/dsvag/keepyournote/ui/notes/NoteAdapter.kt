@@ -1,4 +1,4 @@
-package com.dsvag.keepyournote.ui.screens.notes
+package com.dsvag.keepyournote.ui.notes
 
 import android.graphics.drawable.GradientDrawable
 import android.os.Bundle
@@ -11,7 +11,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.dsvag.keepyournote.R
 import com.dsvag.keepyournote.databinding.RowNoteBinding
 import com.dsvag.keepyournote.models.Note
-import com.dsvag.keepyournote.ui.screens.notes.utils.NoteDiffUtilCallback
+import com.dsvag.keepyournote.ui.notes.utils.NoteDiffUtilCallback
 
 class NoteAdapter : RecyclerView.Adapter<NoteAdapter.NoteViewHolder>() {
 

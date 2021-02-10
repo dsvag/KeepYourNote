@@ -15,7 +15,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.setupActionBarWithNavController
 import com.dsvag.keepyournote.R
 import com.dsvag.keepyournote.databinding.ActivityMainBinding
-import com.dsvag.keepyournote.ui.screens.settings.SettingsViewModel
+import com.dsvag.keepyournote.ui.settings.SettingsViewModel
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import dagger.hilt.android.AndroidEntryPoint
@@ -71,11 +71,6 @@ class MainActivity : AppCompatActivity() {
         return when (item.itemId) {
             R.id.choseTheme -> {
                 showPopup()
-                true
-            }
-            R.id.logOut -> {
-                Firebase.auth.signOut()
-                navController.navigate(R.id.action_noteListFragment_to_loginFragment)
                 true
             }
             else -> super.onOptionsItemSelected(item)

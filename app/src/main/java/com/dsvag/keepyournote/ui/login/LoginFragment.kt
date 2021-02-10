@@ -1,4 +1,4 @@
-package com.dsvag.keepyournote.ui.screens.login
+package com.dsvag.keepyournote.ui.login
 
 import android.os.Bundle
 import android.text.Editable
@@ -54,7 +54,7 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
 
         loginViewModel.initAuth(Firebase.auth)
 
-        if (loginViewModel.getCurrentUser() != null) {
+        if (loginViewModel.getCurrentUser != null) {
             findNavController().navigate(R.id.action_loginFragment_to_noteListFragment)
         }
 

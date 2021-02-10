@@ -1,6 +1,7 @@
-package com.dsvag.keepyournote.ui.screens.notes
+package com.dsvag.keepyournote.ui.notes
 
 import android.content.Intent
+import android.content.res.ColorStateList
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuInflater
@@ -14,7 +15,7 @@ import androidx.navigation.fragment.findNavController
 import com.dsvag.keepyournote.R
 import com.dsvag.keepyournote.databinding.FragmentNoteBinding
 import com.dsvag.keepyournote.models.Note
-import com.dsvag.keepyournote.ui.screens.colors.ColorSheet
+import com.dsvag.keepyournote.ui.colors.ColorSheet
 import com.dsvag.keepyournote.ui.viewBinding
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -30,10 +31,14 @@ class NoteFragment : Fragment(R.layout.fragment_note) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         setHasOptionsMenu(true)
 
-        note = arguments?.getParcelable("note") ?: Note(title = "", description = "")
+        note = arguments?.getParcelable("note") ?: Note()
 
-        binding.title.setText(note?.title)
-        binding.description.setText(note?.description)
+        binding.title.setText(note!!.title)
+        binding.description.setText(note!!.description)
+
+        if (note != null && note!!.color != 0) {
+            setColor(note!!.color)
+        }
 
         binding.description.requestFocus()
 
@@ -48,13 +53,13 @@ class NoteFragment : Fragment(R.layout.fragment_note) {
 
     override fun onStart() {
         super.onStart()
-        this.noteViewModel.showKeyBoard(binding.description)
+        noteViewModel.showKeyBoard(binding.description)
     }
 
     override fun onPause() {
         super.onPause()
         if (note != null && (note!!.title.isNotEmpty() || note!!.description.isNotEmpty())) {
-            this.noteViewModel.insertNote(note!!)
+            noteViewModel.insertNote(note!!)
         }
     }
 
@@ -71,7 +76,7 @@ class NoteFragment : Fragment(R.layout.fragment_note) {
                 true
             }
             R.id.share -> {
-                if (note != null) {
+                if (note != null && (note!!.title.isNotEmpty() || note!!.description.isNotEmpty())) {
                     shareNote()
                 } else {
                     Toast.makeText(requireContext(), "Note is empty", Toast.LENGTH_SHORT).show()
@@ -88,8 +93,23 @@ class NoteFragment : Fragment(R.layout.fragment_note) {
 
     private fun openColorPicker() {
         ColorSheet()
-            .setOnClickListener { color -> note = note?.copy(color = color) }
+            .setOnClickListener { color ->
+                note = note?.copy(color = color)
+                setColor(color)
+            }
             .show(parentFragmentManager, "Colors")
+    }
+
+    private fun setColor(color: Int) {
+        binding.titleLayout.setBoxStrokeColorStateList(
+            ColorStateList(
+                arrayOf(
+                    intArrayOf(android.R.attr.state_focused),
+                    intArrayOf(android.R.attr.state_enabled)
+                ),
+                intArrayOf(color, color)
+            )
+        )
     }
 
     private fun shareNote() {
@@ -110,8 +130,8 @@ class NoteFragment : Fragment(R.layout.fragment_note) {
     }
 
     private fun deleteNote() {
-        this.noteViewModel.hideKeyBoard(binding.description)
-        this.noteViewModel.deleteNote(note!!)
+        noteViewModel.hideKeyBoard(binding.description)
+        noteViewModel.deleteNote(note!!)
         note = null
         findNavController().popBackStack()
     }

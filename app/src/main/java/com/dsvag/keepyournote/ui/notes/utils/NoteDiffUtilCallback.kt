@@ -1,4 +1,4 @@
-package com.dsvag.keepyournote.ui.screens.notes.utils
+package com.dsvag.keepyournote.ui.notes.utils
 
 import androidx.recyclerview.widget.DiffUtil
 import com.dsvag.keepyournote.models.Note
